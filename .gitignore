@@ -4,5 +4,5 @@
 .claude/skills/*.local.md
 .mcp.json
 CLAUDE.local.md
-PLAN.md
+/PLAN.md
 *.log
