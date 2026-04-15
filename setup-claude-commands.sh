@@ -3,15 +3,27 @@
 # ============================================================
 # Claude Code Power Commands — Setup Script
 # Chạy script này ở thư mục gốc của bất kỳ project nào
-# Usage: bash setup-claude-commands.sh
+# Usage:   bash setup-claude-commands.sh
+# Env:     INSTALL_TARGET=<path>  cài vào <path> thay vì cwd
 # ============================================================
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Honor INSTALL_TARGET env var (set by install.sh one-liner).
+# Fall back to current working directory for standalone use.
+if [ -n "${INSTALL_TARGET:-}" ]; then
+  if [ ! -d "$INSTALL_TARGET" ]; then
+    echo "❌ INSTALL_TARGET không tồn tại: $INSTALL_TARGET" >&2
+    exit 1
+  fi
+  cd "$INSTALL_TARGET"
+fi
+
 echo "🤖 Claude Code Power Commands Setup"
 echo "===================================="
+echo "   Target: $PWD"
 
 # Tạo các thư mục cần thiết
 mkdir -p .claude/commands .claude/agents .claude/output-styles .claude/skills
