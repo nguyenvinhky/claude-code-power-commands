@@ -2,14 +2,37 @@
 
 Bộ setup Claude Code đầy đủ tính năng — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template. Drop vào bất kỳ project nào để dùng ngay.
 
-## Cài đặt
+## 🚀 Quick Install (one-liner)
+
+Chạy ngay ở **gốc project** bạn muốn cài:
 
 ```bash
-# Chạy setup script ở gốc project của bạn
-bash /path/to/claude-commands/setup-claude-commands.sh
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash
+```
 
-# Hoặc copy thủ công
-cp -r .claude CLAUDE.md .mcp.json.example /path/to/your/project/
+Installer sẽ clone repo vào temp, copy `.claude/`, `CLAUDE.md`, `.mcp.json.example` vào thư mục hiện tại, rồi tự cleanup. An toàn chạy lại — file đã tồn tại sẽ được bỏ qua.
+
+### Options nâng cao
+
+```bash
+# Pin về version ổn định (khuyến nghị khi đã có release)
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash -s -- --ref v1.0.0
+
+# Cài vào thư mục khác cwd
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash -s -- --dir ~/projects/my-app
+
+# Kiểm tra script trước khi chạy (khuyến nghị cho lần đầu)
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh -o install.sh
+cat install.sh    # đọc qua
+bash install.sh
+```
+
+### Cách thủ công (nếu đã clone repo)
+
+```bash
+git clone https://github.com/nguyenvinhky/claude-code-power-commands.git
+cd your-project
+bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 ```
 
 ## Cấu trúc
