@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(git stash:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(which:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ci:*)",
+      "Bash(npx:*)",
+      "Bash(pnpm:*)",
+      "Bash(yarn:*)",
+      "Bash(bun:*)",
+      "Bash(node:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)",
+      "Bash(pytest:*)",
+      "Bash(go test:*)",
+      "Bash(go build:*)",
+      "Bash(go run:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo test:*)",
+      "Bash(cargo build:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker images:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker compose logs:*)",
+      "Bash(gh:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(git rebase:*)",
+      "Bash(docker rm:*)",
+      "Bash(docker rmi:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)",
+      "Read(./**/secrets/**)",
+      "Read(./**/*credentials*)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./**/id_rsa*)",
+      "Read(./**/*.p12)",
+      "Read(./**/*.pfx)",
+      "Write(./.git/**)"
+    ],
+    "defaultMode": "default"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python -c \"import sys,json,os; d=json.load(sys.stdin); m=d.get('model',{}).get('display_name','claude'); c=os.path.basename(d.get('workspace',{}).get('current_dir','') or ''); cost=d.get('cost',{}).get('total_cost_usd',0); print(f'[{m}] {c} | ${cost:.4f}')\" 2>/dev/null || echo claude"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys,json; cmd=json.load(sys.stdin).get('tool_input',{}).get('command',''); import re; danger=re.search(r'(rm\\s+-rf\\s+/|rm\\s+-rf\\s+\\*|git\\s+push\\s+.*--force.*(main|master)|git\\s+reset\\s+--hard|DROP\\s+(TABLE|DATABASE)|:\\(\\)\\{)', cmd); print(json.dumps({'hookSpecificOutput':{'hookEventName':'PreToolUse','permissionDecision':'ask','permissionDecisionReason':'Potentially destructive command detected — please confirm'}}) if danger else '{}')\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys,json,datetime,os; d=json.load(sys.stdin); ti=d.get('tool_input',{}); tr=d.get('tool_response',{}); fp=ti.get('file_path') or (tr.get('filePath') if isinstance(tr,dict) else '') or ''; line=f'{datetime.datetime.now().isoformat()}\\t{d.get(\\\"tool_name\\\",\\\"\\\")}\\t{fp}\\n'; p='.claude/edit-log.txt'; lines=open(p,'r',encoding='utf-8').readlines() if os.path.exists(p) else []; lines.append(line); lines = lines[-400:] if len(lines) > 500 else lines; open(p,'w',encoding='utf-8').writelines(lines)\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git branch --show-current 2>/dev/null || echo 'not a git repo'); LAST=$(git log -1 --oneline 2>/dev/null || echo 'none'); printf '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Git branch: %s | Last commit: %s\"}}' \"$BRANCH\" \"$LAST\""
+          }
+        ]
+      }
+    ]
+  }
+}

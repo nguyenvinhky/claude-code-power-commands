@@ -1,0 +1,8 @@
+.claude/settings.local.json
+.claude/edit-log.txt
+.claude/.session/
+.claude/skills/*.local.md
+.mcp.json
+CLAUDE.local.md
+PLAN.md
+*.log

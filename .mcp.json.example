@@ -1,0 +1,46 @@
+{
+  "_comment": "Copy this file to .mcp.json and uncomment the servers you need. Set required env vars in your shell or .claude/settings.local.json. Never commit .mcp.json if it contains secrets.",
+  "mcpServers": {
+    "filesystem": {
+      "_description": "Read/write files outside the current workspace. Adjust the allowed directories.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/dir"]
+    },
+    "github": {
+      "_description": "GitHub API access: issues, PRs, repos, code search. Requires GITHUB_TOKEN.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "postgres": {
+      "_description": "Query a Postgres database read-only. Replace connection string.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost:5432/dbname"]
+    },
+    "puppeteer": {
+      "_description": "Browser automation for UI testing and screenshots.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "sentry": {
+      "_description": "Read Sentry issues and stack traces. Requires SENTRY_AUTH_TOKEN.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sentry"],
+      "env": {
+        "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}",
+        "SENTRY_ORG": "your-org"
+      }
+    },
+    "slack": {
+      "_description": "Read/post to Slack channels. Requires SLACK_BOT_TOKEN + SLACK_TEAM_ID.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+      }
+    }
+  }
+}
