@@ -30,6 +30,14 @@
       "command": "dab",
       "args": ["start", "--mcp-stdio", "role:anonymous", "--config", "./dab-config.json", "--LogLevel", "error"]
     },
+    "postman": {
+      "_description": "Access Postman collections, environments, and APIs. Requires POSTMAN_API_KEY (Settings → API Keys).",
+      "command": "npx",
+      "args": ["-y", "@postman/postman-mcp-server"],
+      "env": {
+        "POSTMAN_API_KEY": "${POSTMAN_API_KEY}"
+      }
+    },
     "puppeteer": {
       "_description": "Browser automation for UI testing and screenshots.",
       "command": "npx",
