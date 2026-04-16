@@ -20,12 +20,9 @@
       "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost:5432/dbname"]
     },
     "mssql": {
-      "_description": "SQL Server via community MCP package (lightweight, npx). Just works — no extra runtime needed.",
+      "_description": "SQL Server via community MCP package (lightweight, npx). Uses --key=value args (not env vars).",
       "command": "npx",
-      "args": ["-y", "@fynet/mcp-mssql"],
-      "env": {
-        "MSSQL_CONNECTION_STRING": "Server=localhost;Database=mydb;User Id=sa;Password=yourpass;TrustServerCertificate=true"
-      }
+      "args": ["-y", "@fynet/mcp-mssql", "--server=localhost", "--database=mydb", "--user=sa", "--password=yourpass"]
     },
     "mssql-dab": {
       "_description": "SQL Server via Microsoft Data API Builder (official, enterprise). Requires .NET 8+ and `dotnet tool install -g Microsoft.DataApiBuilder`. Run `dab init` + `dab add` to configure entities first.",
