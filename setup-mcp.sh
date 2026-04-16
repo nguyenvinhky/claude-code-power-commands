@@ -21,7 +21,7 @@ echo "Scope rules:"
 echo "  🌐 GLOBAL  (claude mcp add -s user)  — generic tools used everywhere"
 echo "             filesystem, github, puppeteer, slack"
 echo "  📁 PROJECT (./.mcp.json)             — project-specific credentials"
-echo "             postgres, sentry, custom APIs"
+echo "             postgres, mssql, mssql-dab, sentry, custom APIs"
 echo ""
 
 # ---- GLOBAL SERVERS ----
@@ -91,11 +91,16 @@ setup_project() {
 
 Next steps:
   1. Open .mcp.json
-  2. Delete servers you don't need (keep only postgres/sentry/etc. that are project-specific)
+  2. Delete servers you don't need (keep only postgres/mssql/sentry/etc. that are project-specific)
   3. Replace placeholders (connection strings, org names)
   4. Set any required env vars:
        export SENTRY_AUTH_TOKEN=...
-  5. Restart Claude Code → run /mcp to verify
+       export MSSQL_CONNECTION_STRING="Server=...;Database=...;..."
+  5. For mssql-dab (Microsoft official): install .NET 8+ and run:
+       dotnet tool install -g Microsoft.DataApiBuilder
+       dab init --database-type mssql --connection-string "@env('MSSQL_CONNECTION_STRING')"
+       dab add <TableName> --source dbo.<TableName> --permissions "anonymous:read"
+  6. Restart Claude Code → run /mcp to verify
 
 EOF
 }

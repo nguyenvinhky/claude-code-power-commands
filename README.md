@@ -130,7 +130,7 @@ bash setup-mcp.sh --global   # in ra commands để copy-paste
 cd your-project
 bash /path/to/claude-commands/setup-mcp.sh --project
 ```
-→ Thích hợp cho: `postgres`, `sentry`, `redis`, custom APIs.
+→ Thích hợp cho: `postgres`, `mssql`, `mssql-dab`, `sentry`, `redis`, custom APIs.
 
 **Nguyên tắc**:
 - Token cá nhân dùng chung (GitHub, Slack) → **global**
@@ -169,7 +169,7 @@ Trước release:
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |
-| MCP template | ❌ | ✅ (6 servers) |
+| MCP template | ❌ | ✅ (8 servers) |
 | Dangerous cmd guard | ❌ | ✅ (ask mode) |
 | Secret file block | ❌ | ✅ (deny) |
 

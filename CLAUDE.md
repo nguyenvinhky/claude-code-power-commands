@@ -27,7 +27,7 @@ Reusable file-based capabilities live in `.claude/skills/<name>/SKILL.md`. Each 
 
 ## MCP Servers
 
-Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem, github, postgres, puppeteer, sentry. Uncomment only what's needed.
+Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem, github, postgres, mssql, mssql-dab, puppeteer, sentry, slack. Uncomment only what's needed.
 
 ## For Claude: Operating Notes
 

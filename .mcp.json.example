@@ -19,6 +19,20 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost:5432/dbname"]
     },
+    "mssql": {
+      "_description": "SQL Server via community MCP package (lightweight, npx). Just works — no extra runtime needed.",
+      "command": "npx",
+      "args": ["-y", "@fynet/mcp-mssql"],
+      "env": {
+        "MSSQL_CONNECTION_STRING": "Server=localhost;Database=mydb;User Id=sa;Password=yourpass;TrustServerCertificate=true"
+      }
+    },
+    "mssql-dab": {
+      "_description": "SQL Server via Microsoft Data API Builder (official, enterprise). Requires .NET 8+ and `dotnet tool install -g Microsoft.DataApiBuilder`. Run `dab init` + `dab add` to configure entities first.",
+      "type": "stdio",
+      "command": "dab",
+      "args": ["start", "--mcp-stdio", "role:anonymous", "--config", "./dab-config.json", "--LogLevel", "error"]
+    },
     "puppeteer": {
       "_description": "Browser automation for UI testing and screenshots.",
       "command": "npx",
