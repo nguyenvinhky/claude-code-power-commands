@@ -41,16 +41,17 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 .
 ├── CLAUDE.md                          # Context auto-load vào Claude mỗi session
 ├── .mcp.json.example                  # Template MCP servers
+├── design/                            # UI/UX mockups sinh bởi /design (versioned)
 └── .claude/
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 9 slash commands (tiếng Việt)
+    ├── commands/                      # 10 slash commands (tiếng Việt)
     ├── agents/                        # 5 subagents (English, sonnet)
     ├── skills/                        # File-based skills (pr-review, changelog-gen)
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 9 Slash Commands
+## 10 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -61,6 +62,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/debug` | Root cause analysis cho bugs | ❌ Không fix khi chưa xác nhận cause |
 | `/test` | Viết tests chất lượng cao | ❌ Không viết tests chỉ để coverage |
 | `/refactor` | Cải thiện code, không đổi behavior | ❌ Không refactor khi chưa có tests |
+| `/design` | Sinh UI/UX HTML preview + DESIGN.md, versioning, optional screenshot | ❌ Không đụng code frontend |
 | `/sync` | Đọc lại codebase, cập nhật context | ❌ Không thay đổi gì |
 | `/ship` | Pre-deploy checklist | ❌ Không tự deploy |
 
@@ -145,7 +147,10 @@ Hiển thị `[Model] project-name | $cost` ở dưới màn hình Claude Code.
 
 ```
 Feature mới:
-/sync → /plan <desc> → /code <task> → use test-runner → use code-reviewer → /ship
+/sync → /plan <desc> → /design <screen> → /code <task> → use test-runner → use code-reviewer → /ship
+
+Feature UI-only (chưa cần backend):
+/design <screen> → preview trong browser → /code port vào src/
 
 Fix bug:
 /debug <symptom> → /code <fix> → use test-runner
@@ -161,7 +166,7 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 9 |
+| Slash commands | 9 | 10 |
 | Subagents | 0 | 5 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |

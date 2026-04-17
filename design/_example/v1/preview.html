@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Design Preview v1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#eff6ff', 100: '#dbeafe', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+    (function initTheme() {
+      const stored = localStorage.getItem('design-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const dark = stored ? stored === 'dark' : prefersDark;
+      document.documentElement.classList.toggle('dark', dark);
+    })();
+  </script>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <style>
+    :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; border-radius: 4px; }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(100,116,139,.4); border-radius: 3px; }
+  </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased">
+
+  <!-- Skip link -->
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-brand-600 focus:text-white focus:px-3 focus:py-2 focus:rounded">
+    Skip to content
+  </a>
+
+  <div class="flex h-full">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+           class="hidden md:flex md:flex-col w-60 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+           aria-label="Primary navigation">
+      <div class="h-14 flex items-center px-5 border-b border-slate-200 dark:border-slate-800">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white grid place-items-center font-bold">A</div>
+        <span class="ml-2 font-semibold tracking-tight">Acme</span>
+      </div>
+      <nav class="flex-1 p-3 space-y-1 text-sm">
+        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-100 font-medium" aria-current="page">
+          <span aria-hidden="true">▦</span> Dashboard
+        </a>
+        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+          <span aria-hidden="true">◴</span> Analytics
+        </a>
+        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+          <span aria-hidden="true">☰</span> Orders
+        </a>
+        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+          <span aria-hidden="true">⚙</span> Settings
+        </a>
+      </nav>
+      <div class="p-3 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+        v1.0.0 • <a class="underline hover:text-brand-600" href="#">docs</a>
+      </div>
+    </aside>
+
+    <!-- Main column -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- Top bar -->
+      <header class="h-14 flex items-center gap-3 px-4 md:px-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <button id="menuBtn"
+                class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+                aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 20 20" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M3 5h14v2H3zM3 9h14v2H3zM3 13h14v2H3z"/></svg>
+        </button>
+        <div class="flex-1 max-w-md">
+          <label class="sr-only" for="search">Search</label>
+          <input id="search" type="search" placeholder="Search orders, users…"
+                 class="w-full h-9 px-3 rounded-md bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-brand-500 focus:bg-white dark:focus:bg-slate-900 text-sm placeholder:text-slate-400" />
+        </div>
+        <button id="themeBtn" class="inline-flex items-center gap-1 h-9 px-3 rounded-md text-sm hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☀</span>
+          <span class="hidden sm:inline" id="themeLabel">Light</span>
+        </button>
+        <div class="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-700 grid place-items-center text-xs font-medium" aria-label="User menu">KN</div>
+      </header>
+
+      <!-- Main content -->
+      <main id="main" class="flex-1 overflow-y-auto scrollbar-thin p-4 md:p-6 space-y-6">
+
+        <!-- State tabs -->
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h1 class="text-2xl font-semibold tracking-tight">Dashboard</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Last 7 days · fictional demo data</p>
+          </div>
+          <div role="tablist" aria-label="Dashboard state" class="inline-flex rounded-md border border-slate-200 dark:border-slate-700 text-sm overflow-hidden">
+            <button role="tab" aria-selected="true" data-state="ready" class="state-tab px-3 py-1.5 bg-white dark:bg-slate-900">Ready</button>
+            <button role="tab" aria-selected="false" data-state="loading" class="state-tab px-3 py-1.5 bg-slate-100 dark:bg-slate-800">Loading</button>
+            <button role="tab" aria-selected="false" data-state="empty" class="state-tab px-3 py-1.5 bg-slate-100 dark:bg-slate-800">Empty</button>
+            <button role="tab" aria-selected="false" data-state="error" class="state-tab px-3 py-1.5 bg-slate-100 dark:bg-slate-800">Error</button>
+          </div>
+        </div>
+
+        <!-- KPI cards -->
+        <section aria-label="Key metrics" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <article class="kpi bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <div class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Active users</div>
+            <div class="mt-1 flex items-baseline gap-2">
+              <span class="kpi-value text-2xl font-semibold">12,438</span>
+              <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">▲ 8.2%</span>
+            </div>
+          </article>
+          <article class="kpi bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <div class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Revenue</div>
+            <div class="mt-1 flex items-baseline gap-2">
+              <span class="kpi-value text-2xl font-semibold">$48,920</span>
+              <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">▲ 3.6%</span>
+            </div>
+          </article>
+          <article class="kpi bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <div class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Conversion</div>
+            <div class="mt-1 flex items-baseline gap-2">
+              <span class="kpi-value text-2xl font-semibold">3.42%</span>
+              <span class="text-xs font-medium text-rose-600 dark:text-rose-400">▼ 0.4%</span>
+            </div>
+          </article>
+          <article class="kpi bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <div class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Churn</div>
+            <div class="mt-1 flex items-baseline gap-2">
+              <span class="kpi-value text-2xl font-semibold">1.8%</span>
+              <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">▼ 0.2%</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Chart + Activity -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <!-- Chart -->
+          <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-medium">Weekly traffic</h2>
+              <span class="text-xs text-slate-500 dark:text-slate-400">Mon – Sun</span>
+            </div>
+            <div id="chart" class="h-44 flex items-end gap-2" aria-label="Weekly traffic bar chart">
+              <!-- Bars injected by JS -->
+            </div>
+          </div>
+          <!-- Activity -->
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
+            <h2 class="font-medium mb-3">Recent activity</h2>
+            <ul id="activity" class="space-y-3 text-sm">
+              <!-- Items injected by JS -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Error state (hidden by default, shown when state=error) -->
+        <div id="errorState" role="alert" aria-live="polite" class="hidden rounded-lg border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-100 p-4">
+          <div class="font-medium">Failed to load dashboard data</div>
+          <div class="text-sm mt-1">Network error: unable to reach analytics service. <button class="underline font-medium">Retry</button></div>
+        </div>
+
+        <!-- Empty state (hidden by default) -->
+        <div id="emptyState" class="hidden text-center py-12">
+          <div class="mx-auto w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 grid place-items-center text-xl" aria-hidden="true">∅</div>
+          <h3 class="mt-3 font-medium">No data yet</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Connect a data source to start seeing metrics.</p>
+          <button class="mt-4 inline-flex items-center h-9 px-4 bg-brand-600 hover:bg-brand-700 text-white rounded-md text-sm font-medium">Connect data source</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Viewport badge -->
+  <div id="viewportBadge"
+       class="fixed bottom-3 right-3 z-50 px-2.5 py-1 rounded-md bg-slate-900/80 dark:bg-white/10 text-white text-xs font-mono backdrop-blur"
+       aria-hidden="true">—</div>
+
+  <script>
+    /* Theme toggle */
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    function syncThemeUI() {
+      const dark = document.documentElement.classList.contains('dark');
+      themeIcon.textContent = dark ? '☾' : '☀';
+      themeLabel.textContent = dark ? 'Dark' : 'Light';
+    }
+    themeBtn.addEventListener('click', () => {
+      const next = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', next);
+      localStorage.setItem('design-theme', next ? 'dark' : 'light');
+      syncThemeUI();
+    });
+    syncThemeUI();
+
+    /* Mobile sidebar toggle */
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    menuBtn.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('hidden') === false;
+      sidebar.classList.toggle('flex', open);
+      sidebar.classList.toggle('fixed', open);
+      sidebar.classList.toggle('inset-y-0', open);
+      sidebar.classList.toggle('left-0', open);
+      sidebar.classList.toggle('z-40', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+
+    /* Viewport badge */
+    const badge = document.getElementById('viewportBadge');
+    function updateBadge() {
+      const w = window.innerWidth;
+      const label = w >= 1280 ? 'desktop' : w >= 768 ? 'tablet' : 'mobile';
+      badge.textContent = `${w}px · ${label}`;
+    }
+    updateBadge();
+    window.addEventListener('resize', updateBadge);
+
+    /* Chart bars */
+    const chart = document.getElementById('chart');
+    const data = [42, 56, 48, 72, 65, 80, 68];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const max = Math.max(...data);
+    chart.innerHTML = data.map((v, i) => `
+      <div class="flex-1 flex flex-col items-center gap-1.5">
+        <div class="w-full rounded-t bg-brand-500/80 dark:bg-brand-500 transition-all" style="height: ${(v / max) * 100}%" aria-label="${days[i]}: ${v}k visits"></div>
+        <div class="text-[10px] text-slate-500 dark:text-slate-400">${days[i]}</div>
+      </div>
+    `).join('');
+
+    /* Activity */
+    const activity = document.getElementById('activity');
+    const events = [
+      { who: 'Kim N.',  what: 'placed order #A-2041',     when: '2m ago' },
+      { who: 'Long P.', what: 'upgraded to Pro plan',     when: '12m ago' },
+      { who: 'Mai T.',  what: 'submitted a support ticket', when: '34m ago' },
+      { who: 'Duc H.',  what: 'created a new workspace',  when: '1h ago' },
+      { who: 'An V.',   what: 'invited 3 teammates',      when: '2h ago' },
+    ];
+    activity.innerHTML = events.map(e => `
+      <li class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 grid place-items-center text-xs font-medium shrink-0">${e.who.split(' ').map(s => s[0]).join('')}</div>
+        <div class="min-w-0">
+          <div class="truncate"><span class="font-medium">${e.who}</span> <span class="text-slate-600 dark:text-slate-300">${e.what}</span></div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">${e.when}</div>
+        </div>
+      </li>
+    `).join('');
+
+    /* State switcher */
+    const tabs = document.querySelectorAll('.state-tab');
+    const kpis = document.querySelectorAll('.kpi-value');
+    const errorEl = document.getElementById('errorState');
+    const emptyEl = document.getElementById('emptyState');
+    const mainSections = () => document.querySelectorAll('section');
+
+    function applyState(state) {
+      tabs.forEach(t => {
+        const active = t.dataset.state === state;
+        t.setAttribute('aria-selected', String(active));
+        t.classList.toggle('bg-white', active);
+        t.classList.toggle('dark:bg-slate-900', active);
+        t.classList.toggle('bg-slate-100', !active);
+        t.classList.toggle('dark:bg-slate-800', !active);
+      });
+      errorEl.classList.toggle('hidden', state !== 'error');
+      emptyEl.classList.toggle('hidden', state !== 'empty');
+      mainSections().forEach(s => s.classList.toggle('hidden', state === 'empty' || state === 'error'));
+
+      if (state === 'loading') {
+        kpis.forEach(k => { k.dataset.orig = k.dataset.orig || k.textContent; k.innerHTML = '<span class="inline-block h-5 w-20 rounded bg-slate-200 dark:bg-slate-700 animate-pulse"></span>'; });
+      } else {
+        kpis.forEach(k => { if (k.dataset.orig) k.textContent = k.dataset.orig; });
+      }
+    }
+    tabs.forEach(t => t.addEventListener('click', () => applyState(t.dataset.state)));
+  </script>
+</body>
+</html>

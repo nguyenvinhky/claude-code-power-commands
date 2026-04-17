@@ -4,7 +4,7 @@ Auto-loaded context for Claude Code. Project-wide conventions and operating rule
 
 ## Project Overview
 
-**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 9 slash commands, 5 subagents, safety/observability hooks, output styles, MCP template, expanded permissions.
+**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 10 slash commands, 5 subagents, safety/observability hooks, output styles, MCP template, expanded permissions.
 
 See [README.md](README.md) for directory layout, installation, and workflows.
 
@@ -27,7 +27,11 @@ Reusable file-based capabilities live in `.claude/skills/<name>/SKILL.md`. Each 
 
 ## MCP Servers
 
-Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem, github, postgres, mssql, mssql-dab, puppeteer, sentry, slack. Uncomment only what's needed.
+Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem, github, postgres, mssql, mssql-dab, postman, puppeteer, sentry, slack. Uncomment only what's needed.
+
+## Design artifacts
+
+`/design` writes UI/UX previews to `design/<slug>/v<N>/` with a `preview.html` (self-contained Tailwind CDN) + `DESIGN.md` (spec). Cross-platform pointers: `latest.html` (meta-refresh), `LATEST.txt`, `LATEST.md`. Iterate by bumping `v<N>`; never overwrite. `design/_example/` is the canonical reference. Generated `*.png` screenshots are gitignored by default; `DESIGN.md` + `preview.html` + pointers are tracked.
 
 ## For Claude: Operating Notes
 

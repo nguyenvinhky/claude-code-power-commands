@@ -6,3 +6,7 @@
 CLAUDE.local.md
 /PLAN.md
 *.log
+
+# Design screenshots (auto-generated via /design --preview)
+design/**/*.png
+!design/_example/**/*.png
