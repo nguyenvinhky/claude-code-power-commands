@@ -1,6 +1,6 @@
 # 🤖 Claude Code Power Commands
 
-Bộ setup Claude Code đầy đủ tính năng — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template. Drop vào bất kỳ project nào để dùng ngay.
+Bộ setup Claude Code đầy đủ tính năng — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
 
 ## 🚀 Quick Install (one-liner)
 
@@ -51,7 +51,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 11 Slash Commands
+## 12 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -66,6 +66,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/design` | Sinh UI/UX HTML preview + DESIGN.md, versioning, optional screenshot | ❌ Không đụng code frontend |
 | `/sync` | Đọc lại codebase, cập nhật context | ❌ Không thay đổi gì |
 | `/ship` | Pre-deploy checklist | ❌ Không tự deploy |
+| `/usage` | Thống kê cost/token từ `.claude/usage.jsonl` (today/week/month/by-branch) | ❌ Không edit, không xoá file |
 
 ## 5 Subagents
 
@@ -101,8 +102,11 @@ Configured trong `.claude/settings.json`:
 | **PreToolUse/Bash** | Trước mọi Bash command | Nếu match `rm -rf /`, `git push --force main`, `git reset --hard`, `DROP TABLE`... → hỏi lại user |
 | **PostToolUse/Write\|Edit** | Sau khi ghi/sửa file | Append log vào `.claude/edit-log.txt` |
 | **SessionStart** | Đầu session | Inject `git branch` + last commit vào context |
+| **Stop** | Sau mỗi assistant turn | Append cost/session metadata vào `.claude/usage.jsonl` (cumulative; `/usage` dedupe theo `session_id`) |
 
 Tất cả hooks viết bằng **Python** (không cần `jq`).
+
+**Budget warning (opt-in)**: set `CLAUDE_SESSION_BUDGET_USD=0.50` trong `.claude/settings.local.json` → record vượt ngưỡng sẽ có field `"warn":"over_budget"`.
 
 ## Permissions mở rộng
 
@@ -170,20 +174,21 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 11 |
+| Slash commands | 9 | 12 |
 | Subagents | 0 | 5 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |
-| Hooks | ❌ | ✅ (3 events) |
+| Hooks | ❌ | ✅ (4 events) |
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |
 | MCP template | ❌ | ✅ (8 servers) |
 | Dangerous cmd guard | ❌ | ✅ (ask mode) |
 | Secret file block | ❌ | ✅ (deny) |
+| Cost observability | ❌ | ✅ (`/usage` + Stop hook) |
 
 ## Ghi chú bảo mật
 
-- **Không commit**: `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`
+- **Không commit**: `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`, `.claude/usage.jsonl`
 - Settings hooks ở `ask` mode — bạn vẫn có quyền approve/deny từng lệnh
 - `deny` rules block Claude đọc `.env`, `*.pem`, `*.key`, files chứa "credentials"

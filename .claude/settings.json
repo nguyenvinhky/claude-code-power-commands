@@ -112,6 +112,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys,json,os,datetime; d=json.load(sys.stdin); cost=(d.get('cost') or {}).get('total_cost_usd',0) or 0; sid=d.get('session_id','') or ''; m=d.get('model',{}); model=(m.get('display_name') if isinstance(m,dict) else m) or ''; dur=d.get('duration_ms',0) or 0; branch=(open('.git/HEAD','r',encoding='utf-8').read().strip().split('/')[-1] if os.path.exists('.git/HEAD') else 'no-git') or 'no-git'; cwd=os.path.basename(os.getcwd()); budget=float(os.environ.get('CLAUDE_SESSION_BUDGET_USD','0') or '0'); rec={'ts':datetime.datetime.now().isoformat(timespec='seconds'),'session_id':sid,'model':model,'cost_usd':cost,'duration_ms':dur,'branch':branch,'cwd':cwd}; (rec.update({'warn':'over_budget'}) if budget and cost>budget else None); p='.claude/usage.jsonl'; lines=open(p,'r',encoding='utf-8').readlines() if os.path.exists(p) else []; lines.append(json.dumps(rec)+'\\n'); lines=(lines[-4000:] if len(lines)>5000 else lines); open(p,'w',encoding='utf-8').writelines(lines)\" 2>/dev/null || true"
+          }
+        ]
+      }
     ]
   }
 }

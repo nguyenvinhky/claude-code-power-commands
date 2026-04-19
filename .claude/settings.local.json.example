@@ -4,7 +4,8 @@
   "model": "sonnet",
   "outputStyle": "senior-mentor",
   "env": {
-    "EDITOR": "code"
+    "EDITOR": "code",
+    "CLAUDE_SESSION_BUDGET_USD": "0.50"
   },
   "permissions": {
     "allow": [

@@ -1,5 +1,6 @@
 .claude/settings.local.json
 .claude/edit-log.txt
+.claude/usage.jsonl
 .claude/.session/
 .claude/skills/*.local.md
 .mcp.json
