@@ -10,3 +10,6 @@ CLAUDE.local.md
 # Design screenshots (auto-generated via /design --preview)
 design/**/*.png
 !design/_example/**/*.png
+
+# Brainstorms (ephemeral by default; force-add per file to track)
+brainstorms/

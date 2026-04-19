@@ -4,7 +4,7 @@ Auto-loaded context for Claude Code. Project-wide conventions and operating rule
 
 ## Project Overview
 
-**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 10 slash commands, 5 subagents, safety/observability hooks, output styles, MCP template, expanded permissions.
+**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 11 slash commands, 5 subagents, safety/observability hooks, output styles, MCP template, expanded permissions.
 
 See [README.md](README.md) for directory layout, installation, and workflows.
 
@@ -32,6 +32,10 @@ Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem
 ## Design artifacts
 
 `/design` writes UI/UX previews to `design/<slug>/v<N>/` with a `preview.html` (self-contained Tailwind CDN) + `DESIGN.md` (spec). Cross-platform pointers: `latest.html` (meta-refresh), `LATEST.txt`, `LATEST.md`. Iterate by bumping `v<N>`; never overwrite. `design/_example/` is the canonical reference. Generated `*.png` screenshots are gitignored by default; `DESIGN.md` + `preview.html` + pointers are tracked.
+
+## Brainstorms
+
+`/brainstorm` is the only divergent-mode command — it generates 6–12 option cards (Pros/Cons/Effort/Reversibility) plus a wild card and clustering. It never recommends a winner. Default is ephemeral (chat only); `--save=<slug>` persists to `brainstorms/<slug>.md`. The `brainstorms/` folder is gitignored — `git add -f brainstorms/foo.md` per file if you want to commit a specific list.
 
 ## For Claude: Operating Notes
 

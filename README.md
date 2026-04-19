@@ -45,18 +45,19 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 └── .claude/
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 10 slash commands (tiếng Việt)
+    ├── commands/                      # 11 slash commands (tiếng Việt)
     ├── agents/                        # 5 subagents (English, sonnet)
     ├── skills/                        # File-based skills (pr-review, changelog-gen)
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 10 Slash Commands
+## 11 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
 | `/plan` | Phân tích & lên kế hoạch chi tiết | ❌ Không viết code |
 | `/ask` | Hỏi & đáp, giải thích code | ❌ Không tự ý thay đổi file |
+| `/brainstorm` | Sinh 6-12 options (divergent), có wild card | ❌ Không đưa recommendation |
 | `/code` | Implement code (auto-sync context) | ❌ Không refactor ngoài phạm vi |
 | `/review` | Review: bugs, security, performance | ❌ Không tự fix (chỉ report) |
 | `/debug` | Root cause analysis cho bugs | ❌ Không fix khi chưa xác nhận cause |
@@ -152,6 +153,9 @@ Feature mới:
 Feature UI-only (chưa cần backend):
 /design <screen> → preview trong browser → /code port vào src/
 
+Chưa biết đi hướng nào:
+/brainstorm <problem> → pick 1-2 options → /plan <chosen> → /code
+
 Fix bug:
 /debug <symptom> → /code <fix> → use test-runner
 
@@ -166,7 +170,7 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 10 |
+| Slash commands | 9 | 11 |
 | Subagents | 0 | 5 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |
