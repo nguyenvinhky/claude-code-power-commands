@@ -68,6 +68,14 @@ else
   echo "⚠️  CLAUDE.md đã tồn tại — bỏ qua"
 fi
 
+# Copy GEMINI.md nếu chưa có
+if [ ! -f GEMINI.md ]; then
+  cp "$SCRIPT_DIR"/GEMINI.md GEMINI.md
+  echo "✅ Copy GEMINI.md"
+else
+  echo "⚠️  GEMINI.md đã tồn tại — bỏ qua"
+fi
+
 # Copy .mcp.json.example
 cp "$SCRIPT_DIR"/.mcp.json.example .mcp.json.example
 echo "✅ Copy .mcp.json.example"
@@ -76,13 +84,14 @@ echo "✅ Copy .mcp.json.example"
 if [ -f .gitignore ]; then
   grep -q "^.claude/settings.local.json$" .gitignore || cat >> .gitignore <<'EOF'
 
-# Claude Code local files
+# Claude Code & Gemini CLI local files
 .claude/settings.local.json
 .claude/edit-log.txt
 .claude/.session/
 .claude/skills/*.local.md
 .mcp.json
 CLAUDE.local.md
+GEMINI.local.md
 EOF
   echo "✅ Cập nhật .gitignore"
 fi
@@ -96,8 +105,8 @@ echo "   Skills:   $(find .claude/skills -name SKILL.md 2>/dev/null | wc -l)"
 
 echo ""
 echo "✨ Hoàn tất! Bước tiếp theo:"
-echo "   1. Mở Claude Code trong project này"
-echo "   2. Claude sẽ tự đọc CLAUDE.md"
+echo "   1. Mở Claude Code hoặc Gemini CLI trong project này"
+echo "   2. Claude sẽ tự đọc CLAUDE.md, Gemini sẽ tự đọc GEMINI.md"
 echo "   3. Thử: /sync → /plan → /code → /test → /review → /ship"
 echo ""
 echo "💡 Tùy chọn:"

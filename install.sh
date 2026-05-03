@@ -37,8 +37,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo "🤖 Claude Code Power Commands — Installer"
-echo "=========================================="
+echo "🤖 Power Commands (Claude Code & Gemini CLI) — Installer"
+echo "========================================================="
 echo "   Repo:   $REPO"
 echo "   Ref:    $REF"
 echo "   Target: $TARGET_DIR"
@@ -83,5 +83,5 @@ echo ""
 ( cd "$TARGET_DIR" && INSTALL_TARGET="$TARGET_DIR" bash "$SETUP_SCRIPT" )
 
 echo ""
-echo "✨ Done! Open Claude Code in $TARGET_DIR to start."
+echo "✨ Done! Open Claude Code or Gemini CLI in $TARGET_DIR to start."
 echo "   Try: /sync → /plan → /code → /test → /review → /ship"
