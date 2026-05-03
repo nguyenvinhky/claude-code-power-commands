@@ -1,23 +1,19 @@
 #!/usr/bin/env bash
 # ============================================================
-# Claude Code Power Commands — One-line Installer
+# Gemini Power Commands — One-line Installer
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/gemini-power-commands/main/install.sh | bash
 #
 # Options (when piping to bash, pass via `bash -s -- <flags>`):
 #   --ref <tag|branch|sha>    Pin to a specific git ref (default: main)
 #   --dir <path>              Install into <path> instead of current directory
-#   --repo <owner/name>       Override source repo (default: nguyenvinhky/claude-code-power-commands)
-#
-# Examples:
-#   curl -fsSL <url>/install.sh | bash -s -- --ref v1.0.0
-#   curl -fsSL <url>/install.sh | bash -s -- --dir ~/projects/foo
+#   --repo <owner/name>       Override source repo (default: nguyenvinhky/gemini-power-commands)
 # ============================================================
 
 set -euo pipefail
 
-REPO="nguyenvinhky/claude-code-power-commands"
+REPO="nguyenvinhky/gemini-power-commands"
 REF="main"
 TARGET_DIR="$PWD"
 
@@ -27,7 +23,7 @@ while [[ $# -gt 0 ]]; do
     --dir)  TARGET_DIR="$2"; shift 2 ;;
     --repo) REPO="$2"; shift 2 ;;
     -h|--help)
-      sed -n '2,20p' "$0" 2>/dev/null || echo "See script header for usage."
+      sed -n '2,15p' "$0" 2>/dev/null || echo "See script header for usage."
       exit 0
       ;;
     *)
@@ -37,7 +33,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo "🤖 Power Commands (Claude Code & Gemini CLI) — Installer"
+echo "🤖 Gemini Power Commands — Installer"
 echo "========================================================="
 echo "   Repo:   $REPO"
 echo "   Ref:    $REF"
@@ -59,22 +55,21 @@ if [[ ! -d "$TARGET_DIR" ]]; then
 fi
 
 # ---- Clone to temp & cleanup on exit ----
-TMP_DIR="$(mktemp -d 2>/dev/null || mktemp -d -t 'ccpc')"
+TMP_DIR="$(mktemp -d 2>/dev/null || mktemp -d -t 'gpc')"
 cleanup() { rm -rf "$TMP_DIR"; }
 trap cleanup EXIT INT TERM
 
 echo "📥 Cloning $REPO@$REF …"
 git clone --depth 1 --branch "$REF" "https://github.com/${REPO}.git" "$TMP_DIR" >/dev/null 2>&1 || {
-  # Fallback: branch flag fails on commit SHAs — clone default then checkout
   echo "   (falling back to full clone for ref resolution)"
   rm -rf "$TMP_DIR" && mkdir -p "$TMP_DIR"
   git clone "https://github.com/${REPO}.git" "$TMP_DIR" >/dev/null 2>&1
   git -C "$TMP_DIR" checkout "$REF" >/dev/null 2>&1
 }
 
-SETUP_SCRIPT="$TMP_DIR/setup-claude-commands.sh"
+SETUP_SCRIPT="$TMP_DIR/setup-gemini-commands.sh"
 if [[ ! -f "$SETUP_SCRIPT" ]]; then
-  echo "❌ setup-claude-commands.sh not found in repo" >&2
+  echo "❌ setup-gemini-commands.sh not found in repo" >&2
   exit 1
 fi
 
@@ -83,5 +78,5 @@ echo ""
 ( cd "$TARGET_DIR" && INSTALL_TARGET="$TARGET_DIR" bash "$SETUP_SCRIPT" )
 
 echo ""
-echo "✨ Done! Open Claude Code or Gemini CLI in $TARGET_DIR to start."
+echo "✨ Done! Open Gemini CLI in $TARGET_DIR to start."
 echo "   Try: /sync → /plan → /code → /test → /review → /ship"

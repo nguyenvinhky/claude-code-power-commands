@@ -1,8 +1,8 @@
-.claude/settings.local.json
-.claude/edit-log.txt
-.claude/usage.jsonl
-.claude/.session/
-.claude/skills/*.local.md
+.gemini-commands/settings.local.json
+.gemini-commands/edit-log.txt
+.gemini-commands/usage.jsonl
+.gemini-commands/.session/
+.gemini-commands/skills/*.local.md
 .mcp.json
 CLAUDE.local.md
 /PLAN.md

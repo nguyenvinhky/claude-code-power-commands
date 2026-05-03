@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "_comment": "Copy to .claude/settings.local.json (gitignored). Personal/machine overrides — never commit.",
+  "_comment": "Copy to .gemini-commands/settings.local.json (gitignored). Personal/machine overrides — never commit.",
   "model": "sonnet",
   "outputStyle": "senior-mentor",
   "env": {

@@ -1,7 +1,7 @@
 # /usage — Cost & Token Observability
 
 ## Mission
-Đọc `.claude/usage.jsonl` và tổng hợp spending (cost, session, model, branch). **Chỉ đọc, không edit, không xoá file.**
+Đọc `.gemini-commands/usage.jsonl` và tổng hợp spending (cost, session, model, branch). **Chỉ đọc, không edit, không xoá file.**
 
 ## Input
 `$ARGUMENTS` = optional flags (không có = summary toàn file).
@@ -22,7 +22,7 @@ Flags có thể kết hợp: `/usage --week --by-branch`, `/usage --month --top=
 ## Process
 
 ### Step 1 — Đọc file
-- Path: `.claude/usage.jsonl`
+- Path: `.gemini-commands/usage.jsonl`
 - Nếu file **không tồn tại** → trả lời: *"Chưa có session nào được log. Hook `Stop` có thể chưa fire — hãy đóng session này và mở lại để ghi record đầu tiên."* và dừng.
 - Nếu file **rỗng** → tương tự.
 - Parse từng dòng bằng `json.loads`, **skip dòng lỗi** (đừng crash).
@@ -95,8 +95,8 @@ Mặc định markdown table. Nếu `--json`, dump `json.dumps({'summary':..., '
 ---
 
 ## Hard Rules
-- **Read-only**: không gọi `Write`/`Edit` trên `.claude/usage.jsonl` hay bất kỳ file nào.
-- **Không chạy `rm`** trên usage.jsonl. Nếu user muốn xoá, hướng dẫn họ `rm .claude/usage.jsonl` thủ công.
+- **Read-only**: không gọi `Write`/`Edit` trên `.gemini-commands/usage.jsonl` hay bất kỳ file nào.
+- **Không chạy `rm`** trên usage.jsonl. Nếu user muốn xoá, hướng dẫn họ `rm .gemini-commands/usage.jsonl` thủ công.
 - **Không hallucinate**: nếu file thiếu field nào (vd `duration_ms=0`), hiển thị `-` hoặc `n/a`, đừng bịa.
 - **Dedup trước khi aggregate** — bỏ qua bước này = cost bị double/triple count.
 - **Cost 0 cũng là valid data** — đừng lọc bỏ (có thể là session chưa cost hoặc API free).

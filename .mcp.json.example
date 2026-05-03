@@ -1,5 +1,5 @@
 {
-  "_comment": "Copy this file to .mcp.json and uncomment the servers you need. Set required env vars in your shell or .claude/settings.local.json. Never commit .mcp.json if it contains secrets.",
+  "_comment": "Copy this file to .mcp.json and uncomment the servers you need. Set required env vars in your shell or .gemini-commands/settings.local.json. Never commit .mcp.json if it contains secrets.",
   "mcpServers": {
     "filesystem": {
       "_description": "Read/write files outside the current workspace. Adjust the allowed directories.",
