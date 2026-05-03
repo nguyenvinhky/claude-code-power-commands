@@ -4,10 +4,10 @@ Bộ setup đầy đủ tính năng cho **Gemini CLI** — slash commands, subag
 
 ## 🚀 Quick Install (one-liner)
 
-Chạy ngay ở **gốc project** bạn muốn cài:
+Chạy ngay ở **gốc project** bạn muốn cài (sử dụng nhánh migration):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/gemini-power-commands/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/feature/gemini-only-migration/install.sh | bash -s -- --ref feature/gemini-only-migration
 ```
 
 Installer sẽ clone repo vào temp, copy `.gemini-commands/`, `GEMINI.md`, `.mcp.json.example` vào thư mục hiện tại, rồi tự cleanup. An toàn chạy lại — file đã tồn tại sẽ được bỏ qua.
@@ -16,10 +16,10 @@ Installer sẽ clone repo vào temp, copy `.gemini-commands/`, `GEMINI.md`, `.mc
 
 ```bash
 # Cài vào thư mục khác cwd
-curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/gemini-power-commands/main/install.sh | bash -s -- --dir ~/projects/my-app
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/feature/gemini-only-migration/install.sh | bash -s -- --ref feature/gemini-only-migration --dir ~/projects/my-app
 
 # Kiểm tra script trước khi chạy (khuyến nghị cho lần đầu)
-curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/gemini-power-commands/main/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/feature/gemini-only-migration/install.sh -o install.sh
 cat install.sh    # đọc qua
 bash install.sh
 ```
@@ -27,9 +27,9 @@ bash install.sh
 ### Cách thủ công (nếu đã clone repo)
 
 ```bash
-git clone https://github.com/nguyenvinhky/gemini-power-commands.git
+git clone -b feature/gemini-only-migration https://github.com/nguyenvinhky/claude-code-power-commands.git
 cd your-project
-bash /path/to/gemini-power-commands/setup-gemini-commands.sh
+bash /path/to/claude-code-power-commands/setup-gemini-commands.sh
 ```
 ## Cấu trúc
 

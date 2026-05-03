@@ -3,17 +3,17 @@
 # Gemini Power Commands — One-line Installer
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/gemini-power-commands/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/feature/gemini-only-migration/install.sh | bash -s -- --ref feature/gemini-only-migration
 #
 # Options (when piping to bash, pass via `bash -s -- <flags>`):
 #   --ref <tag|branch|sha>    Pin to a specific git ref (default: main)
 #   --dir <path>              Install into <path> instead of current directory
-#   --repo <owner/name>       Override source repo (default: nguyenvinhky/gemini-power-commands)
+#   --repo <owner/name>       Override source repo (default: nguyenvinhky/claude-code-power-commands)
 # ============================================================
 
 set -euo pipefail
 
-REPO="nguyenvinhky/gemini-power-commands"
+REPO="nguyenvinhky/claude-code-power-commands"
 REF="main"
 TARGET_DIR="$PWD"
 
