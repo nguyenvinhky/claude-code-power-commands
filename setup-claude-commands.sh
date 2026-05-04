@@ -21,6 +21,26 @@ if [ -n "${INSTALL_TARGET:-}" ]; then
   cd "$INSTALL_TARGET"
 fi
 
+# Flag parsing. Also honors CLAUDE_TEMPLATE env (set by install.sh --template).
+USE_TEMPLATE="${CLAUDE_TEMPLATE:-}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --template) USE_TEMPLATE=1; shift ;;
+    -h|--help)
+      echo "Usage: bash setup-claude-commands.sh [--template]"
+      echo "  --template   Bootstrap CLAUDE.md from templates/CLAUDE.template.md."
+      echo "               PROJECT_NAME is auto-substituted from target dir basename."
+      echo "               Other {{...}} markers stay so the user can fill them in."
+      echo "               Default (no flag): copy this repo's CLAUDE.md verbatim."
+      exit 0
+      ;;
+    *)
+      echo "❌ Unknown option: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
 echo "🤖 Claude Code Power Commands Setup"
 echo "===================================="
 echo "   Target: $PWD"
@@ -68,10 +88,17 @@ fi
 cp "$SCRIPT_DIR"/.claude/settings.local.json.example .claude/settings.local.json.example
 echo "✅ Copy .claude/settings.local.json.example"
 
-# Copy CLAUDE.md nếu chưa có
+# Copy CLAUDE.md nếu chưa có (template mode hoặc verbatim copy).
 if [ ! -f CLAUDE.md ]; then
-  cp "$SCRIPT_DIR"/CLAUDE.md CLAUDE.md
-  echo "✅ Copy CLAUDE.md"
+  if [ -n "$USE_TEMPLATE" ] && [ -f "$SCRIPT_DIR"/templates/CLAUDE.template.md ]; then
+    PROJECT_NAME="$(basename "$PWD")"
+    # sed -i differs BSD vs GNU; redirect to file is portable.
+    sed "s|{{PROJECT_NAME}}|${PROJECT_NAME}|g" "$SCRIPT_DIR"/templates/CLAUDE.template.md > CLAUDE.md
+    echo "✅ Copy CLAUDE.md (template — PROJECT_NAME=$PROJECT_NAME; grep '{{' CLAUDE.md để fill nốt)"
+  else
+    cp "$SCRIPT_DIR"/CLAUDE.md CLAUDE.md
+    echo "✅ Copy CLAUDE.md"
+  fi
 else
   echo "⚠️  CLAUDE.md đã tồn tại — bỏ qua"
 fi

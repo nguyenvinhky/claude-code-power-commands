@@ -9,10 +9,14 @@
 #   --ref <tag|branch|sha>    Pin to a specific git ref (default: main)
 #   --dir <path>              Install into <path> instead of current directory
 #   --repo <owner/name>       Override source repo (default: nguyenvinhky/claude-code-power-commands)
+#   --template                Bootstrap CLAUDE.md from templates/ (PROJECT_NAME auto-
+#                             substituted, other {{...}} markers left for user to fill).
+#                             Default behavior copies this repo's CLAUDE.md verbatim.
 #
 # Examples:
 #   curl -fsSL <url>/install.sh | bash -s -- --ref v1.0.0
 #   curl -fsSL <url>/install.sh | bash -s -- --dir ~/projects/foo
+#   curl -fsSL <url>/install.sh | bash -s -- --template
 # ============================================================
 
 set -euo pipefail
@@ -20,14 +24,16 @@ set -euo pipefail
 REPO="nguyenvinhky/claude-code-power-commands"
 REF="main"
 TARGET_DIR="$PWD"
+USE_TEMPLATE=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --ref)  REF="$2"; shift 2 ;;
-    --dir)  TARGET_DIR="$2"; shift 2 ;;
-    --repo) REPO="$2"; shift 2 ;;
+    --ref)      REF="$2"; shift 2 ;;
+    --dir)      TARGET_DIR="$2"; shift 2 ;;
+    --repo)     REPO="$2"; shift 2 ;;
+    --template) USE_TEMPLATE=1; shift ;;
     -h|--help)
-      sed -n '2,20p' "$0" 2>/dev/null || echo "See script header for usage."
+      sed -n '2,22p' "$0" 2>/dev/null || echo "See script header for usage."
       exit 0
       ;;
     *)
@@ -79,8 +85,9 @@ if [[ ! -f "$SETUP_SCRIPT" ]]; then
 fi
 
 echo "⚙️  Running setup in $TARGET_DIR …"
+[ -n "$USE_TEMPLATE" ] && echo "   (--template mode: CLAUDE.md will be bootstrapped from templates/)"
 echo ""
-( cd "$TARGET_DIR" && INSTALL_TARGET="$TARGET_DIR" bash "$SETUP_SCRIPT" )
+( cd "$TARGET_DIR" && INSTALL_TARGET="$TARGET_DIR" CLAUDE_TEMPLATE="$USE_TEMPLATE" bash "$SETUP_SCRIPT" )
 
 echo ""
 echo "✨ Done! Open Claude Code in $TARGET_DIR to start."

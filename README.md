@@ -12,6 +12,8 @@ curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-comm
 
 Installer sẽ clone repo vào temp, copy `.claude/`, `CLAUDE.md`, `.mcp.json.example` vào thư mục hiện tại, rồi tự cleanup. An toàn chạy lại — file đã tồn tại sẽ được bỏ qua.
 
+**Tip**: nếu đây là project mới và bạn muốn CLAUDE.md tailored thay vì copy literal của repo này → thêm `--template`. Sẽ bootstrap từ `templates/CLAUDE.template.md` với `{{PROJECT_NAME}}` tự điền theo basename folder; các marker `{{...}}` còn lại để bạn `grep '{{' CLAUDE.md` rồi fill nốt.
+
 ### Options nâng cao
 
 ```bash
@@ -20,6 +22,9 @@ curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-comm
 
 # Cài vào thư mục khác cwd
 curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash -s -- --dir ~/projects/my-app
+
+# Bootstrap CLAUDE.md từ template (PROJECT_NAME tự điền, các {{...}} khác để user fill)
+curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash -s -- --template
 
 # Kiểm tra script trước khi chạy (khuyến nghị cho lần đầu)
 curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh -o install.sh
