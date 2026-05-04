@@ -8,9 +8,24 @@
     "CLAUDE_SESSION_BUDGET_USD": "0.50"
   },
   "permissions": {
+    "_allow_comment": "Universal-safe entries (curl/wget, jq/yq, head/tail/wc/awk/sed, lint tools, terraform plan/validate, kubectl get/describe/logs, etc.) are already in shared .claude/settings.json — no need to duplicate. Below are common LOCAL-only additions with side effects (cp/mv overwrites, docker run starts containers, etc.). Uncomment selectively based on your tolerance.",
     "allow": [
-      "Bash(gh:*)",
-      "Bash(make:*)"
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(ln:*)",
+      "Bash(docker run:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker build:*)",
+      "Bash(docker compose up:*)",
+      "Bash(docker compose down:*)",
+      "Bash(docker compose build:*)",
+      "Bash(docker compose exec:*)",
+      "Bash(kubectl config:*)",
+      "Bash(mvn:*)",
+      "Bash(./gradlew:*)",
+      "Bash(gradle:*)",
+      "Bash(rake:*)",
+      "Bash(bundle:*)"
     ],
     "_additionalDirectories_comment": "Uncomment + edit for monorepo / sibling-repo access (read-only outside cwd). Paths can be relative to project root or absolute.",
     "additionalDirectories": [
