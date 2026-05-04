@@ -24,10 +24,12 @@ Audit the current change (or the files the user points to) against:
 - A10 — SSRF
 
 **Also check**
-- Hardcoded secrets (`grep` for API keys, tokens, passwords)
+- Hardcoded secrets — `grep` for API keys, tokens, passwords; if `gitleaks` or `trufflehog` available, prefer those (entropy-based detection catches more than keyword search)
 - Unsafe regexes (ReDoS)
 - Path traversal in file handlers
 - Race conditions around auth state
+- **Infrastructure-as-Code** (`*.tf`, `k8s/*.yaml`, `Dockerfile`, `docker-compose.yml`, `cloudformation/*`) — public S3/buckets, missing security groups, root container users, mounted secrets, privileged ports, missing network policies, `:latest` image pins
+- **Supply chain** — typosquat (look-alike package names like `discod.js`), missing version pinning (`^1.x` in production deps), recently-published deps with no track record, missing lockfile
 
 ## Process
 

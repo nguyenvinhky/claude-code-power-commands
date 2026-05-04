@@ -44,15 +44,17 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 ```
 .
 ├── CLAUDE.md                          # Context auto-load vào Claude mỗi session
-├── .mcp.json.example                  # Template MCP servers
+├── .mcp.json.example                  # 13 MCP server templates
 ├── design/                            # UI/UX mockups sinh bởi /design (versioned)
+├── decisions/                         # ADRs (MADR format) sinh bởi /adr
+├── templates/                         # CLAUDE.template.md cho install --template
 └── .claude/
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 14 slash commands (tiếng Việt)
-    ├── agents/                        # 5 subagents (English, sonnet)
-    ├── skills/                        # File-based skills (pr-review, changelog-gen)
-    ├── hooks/                         # Long Python hook scripts (lint, notify, ...)
+    ├── commands/                      # 18 slash commands (tiếng Việt)
+    ├── agents/                        # 7 subagents (English, sonnet)
+    ├── skills/                        # 5 skills (pr-review, changelog-gen, release-notes, incident-report, migration-guide)
+    ├── hooks/                         # Python hook scripts + _py.sh cross-platform wrapper
     └── output-styles/                 # senior-mentor, concise
 ```
 
@@ -153,14 +155,14 @@ File nhạy cảm (`.env`, `*.pem`, `*.key`, `*credentials*`) → `deny`.
 ```bash
 bash setup-mcp.sh --global   # in ra commands để copy-paste
 ```
-→ Thích hợp cho: `filesystem`, `github`, `puppeteer`, `slack` (credential cá nhân dùng chung).
+→ Thích hợp cho: `filesystem`, `github`, `puppeteer`, `slack`, `linear`, `notion` (credential cá nhân dùng chung).
 
 **Tier 2 — Per-project** (credential riêng từng project):
 ```bash
 cd your-project
 bash /path/to/claude-commands/setup-mcp.sh --project
 ```
-→ Thích hợp cho: `postgres`, `mssql`, `mssql-dab`, `sentry`, `redis`, custom APIs.
+→ Thích hợp cho: `postgres`, `mssql`, `mssql-dab`, `sentry`, `redis`, `jira`, `postman`, custom APIs.
 
 **Nguyên tắc**:
 - Token cá nhân dùng chung (GitHub, Slack) → **global**
@@ -206,6 +208,7 @@ Trước release:
 | Checkpoint save/resume | ❌ | ✅ (`/checkpoint`) |
 | Cross-platform Python | ❌ | ✅ (`.claude/hooks/_py.sh` wrapper) |
 | Per-agent cost tracking | ❌ | ✅ (`SubagentStop` + `/usage --by-agent`) |
+| CLAUDE.md template bootstrap | ❌ | ✅ (`install.sh --template`) |
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |
