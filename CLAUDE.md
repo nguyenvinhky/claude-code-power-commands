@@ -27,7 +27,7 @@ See [README.md](README.md) for directory layout, installation, and workflows.
 
 ## Skills
 
-Reusable file-based capabilities live in `.claude/skills/<name>/SKILL.md`. Each has a `name` + `description` frontmatter that tells Claude when to trigger it. Current templates: `pr-review`, `changelog-gen`.
+Reusable file-based capabilities live in `.claude/skills/<name>/SKILL.md`. Each has a `name` + `description` frontmatter that tells Claude when to trigger it. Current templates: `pr-review`, `changelog-gen`, `release-notes`, `incident-report`, `migration-guide`.
 
 ## MCP Servers
 

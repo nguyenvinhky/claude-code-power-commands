@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "_comment": "Copy to .claude/settings.local.json (gitignored). Personal/machine overrides — never commit.",
+  "_comment": "Copy to .claude/settings.local.json (gitignored). Personal/machine overrides — never commit. Available env vars: CLAUDE_SESSION_BUDGET_USD (Stop hook over-budget tag), CLAUDE_USAGE_SPIKE_USD (/usage --spike threshold), CLAUDE_DISABLE_LINT_ON_SAVE, CLAUDE_DISABLE_NOTIFY, CLAUDE_DISABLE_PROMPT_CONTEXT.",
   "model": "sonnet",
   "outputStyle": "senior-mentor",
   "env": {
@@ -11,6 +11,11 @@
     "allow": [
       "Bash(gh:*)",
       "Bash(make:*)"
+    ],
+    "_additionalDirectories_comment": "Uncomment + edit for monorepo / sibling-repo access (read-only outside cwd). Paths can be relative to project root or absolute.",
+    "additionalDirectories": [
+      "../shared-types",
+      "/absolute/path/to/related-repo"
     ]
   }
 }

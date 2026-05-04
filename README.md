@@ -95,14 +95,17 @@ Subagents có **context window riêng** → không làm bẩn main context, có 
 
 Cách dùng: `"hãy dùng code-reviewer để audit thay đổi vừa rồi"`.
 
-## Skills
+## 5 Skills
 
 Skills là các capabilities file-based trong `.claude/skills/<name>/SKILL.md`. Mỗi skill có `name` + `description` ở frontmatter để Claude biết khi nào trigger.
 
 | Skill | Trigger | Vai trò |
 |-------|---------|---------|
 | `pr-review` | "review PR #N", PR URL | Fetch diff qua `gh`, audit 5 dimensions, report blockers/suggestions |
-| `changelog-gen` | "generate changelog", "release notes" | Group commits theo conventional-commit → Keep-a-Changelog format |
+| `changelog-gen` | "generate changelog", "update CHANGELOG.md" | Group commits theo conventional-commit → Keep-a-Changelog format (technical/internal) |
+| `release-notes` | "release notes for vX", "announcement post" | User-facing release notes — selective + customer-framed (sister của `changelog-gen`) |
+| `incident-report` | "post-mortem", "RCA for ...", "incident report" | Blameless post-mortem template: timeline + impact + root cause + SMART action items |
+| `migration-guide` | "migration guide v1→v2", "breaking changes doc" | User-facing guide cho lib/API mình OWN bị breaking changes (sister của `/migrate` command nhưng outward) |
 
 Thêm skill mới: tạo `.claude/skills/<name>/SKILL.md` với frontmatter đầy đủ.
 
@@ -132,6 +135,8 @@ Tất cả hooks viết bằng **Python** (không cần `jq`).
 
 Lệnh nguy hiểm (`rm`, `git push`, `git reset --hard`, `docker rm`) → ở trạng thái `ask`.
 File nhạy cảm (`.env`, `*.pem`, `*.key`, `*credentials*`) → `deny`.
+
+**Monorepo / sibling repos**: thêm `permissions.additionalDirectories` trong `.claude/settings.local.json` (gitignored) để cho Claude đọc thư mục ngoài cwd. Xem ví dụ trong `.claude/settings.local.json.example`.
 
 ## Output Styles
 
@@ -194,7 +199,7 @@ Trước release:
 |---|---|---|
 | Slash commands | 9 | 18 |
 | Subagents | 0 | 7 |
-| Skills | 0 | 2 |
+| Skills | 0 | 5 |
 | CLAUDE.md | ❌ | ✅ |
 | Hooks | ❌ | ✅ (8 events / 9 hooks) |
 | Decision records | ❌ | ✅ (`/adr` + `decisions/`) |
