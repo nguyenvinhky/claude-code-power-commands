@@ -1,6 +1,6 @@
-# 🤖 Power Commands for Claude Code & Gemini CLI
+# 🤖 Claude Code Power Commands
 
-Bộ setup đầy đủ tính năng cho **Claude Code** và **Gemini CLI** — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
+Bộ setup đầy đủ tính năng cho **Claude Code** — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
 
 ## 🚀 Quick Install (one-liner)
 
@@ -10,7 +10,7 @@ Chạy ngay ở **gốc project** bạn muốn cài:
 curl -fsSL https://raw.githubusercontent.com/nguyenvinhky/claude-code-power-commands/main/install.sh | bash
 ```
 
-Installer sẽ clone repo vào temp, copy `.claude/`, `CLAUDE.md`, `GEMINI.md`, `.mcp.json.example` vào thư mục hiện tại, rồi tự cleanup. An toàn chạy lại — file đã tồn tại sẽ được bỏ qua.
+Installer sẽ clone repo vào temp, copy `.claude/`, `CLAUDE.md`, `.mcp.json.example` vào thư mục hiện tại, rồi tự cleanup. An toàn chạy lại — file đã tồn tại sẽ được bỏ qua.
 
 ### Options nâng cao
 
@@ -39,7 +39,6 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 ```
 .
 ├── CLAUDE.md                          # Context auto-load vào Claude mỗi session
-├── GEMINI.md                          # Context auto-load vào Gemini CLI mỗi session
 ├── .mcp.json.example                  # Template MCP servers
 ├── design/                            # UI/UX mockups sinh bởi /design (versioned)
 └── .claude/

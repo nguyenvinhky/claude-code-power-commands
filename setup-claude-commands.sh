@@ -31,7 +31,7 @@ echo "✅ Tạo thư mục .claude/{commands,agents,output-styles,skills}"
 
 # Copy commands
 cp "$SCRIPT_DIR"/.claude/commands/*.md .claude/commands/
-echo "✅ Copy 9 slash commands"
+echo "✅ Copy 12 slash commands"
 
 # Copy agents
 cp "$SCRIPT_DIR"/.claude/agents/*.md .claude/agents/
@@ -68,14 +68,6 @@ else
   echo "⚠️  CLAUDE.md đã tồn tại — bỏ qua"
 fi
 
-# Copy GEMINI.md nếu chưa có
-if [ ! -f GEMINI.md ]; then
-  cp "$SCRIPT_DIR"/GEMINI.md GEMINI.md
-  echo "✅ Copy GEMINI.md"
-else
-  echo "⚠️  GEMINI.md đã tồn tại — bỏ qua"
-fi
-
 # Copy .mcp.json.example
 cp "$SCRIPT_DIR"/.mcp.json.example .mcp.json.example
 echo "✅ Copy .mcp.json.example"
@@ -84,14 +76,13 @@ echo "✅ Copy .mcp.json.example"
 if [ -f .gitignore ]; then
   grep -q "^.claude/settings.local.json$" .gitignore || cat >> .gitignore <<'EOF'
 
-# Claude Code & Gemini CLI local files
+# Claude Code local files
 .claude/settings.local.json
 .claude/edit-log.txt
 .claude/.session/
 .claude/skills/*.local.md
 .mcp.json
 CLAUDE.local.md
-GEMINI.local.md
 EOF
   echo "✅ Cập nhật .gitignore"
 fi
@@ -105,8 +96,8 @@ echo "   Skills:   $(find .claude/skills -name SKILL.md 2>/dev/null | wc -l)"
 
 echo ""
 echo "✨ Hoàn tất! Bước tiếp theo:"
-echo "   1. Mở Claude Code hoặc Gemini CLI trong project này"
-echo "   2. Claude sẽ tự đọc CLAUDE.md, Gemini sẽ tự đọc GEMINI.md"
+echo "   1. Mở Claude Code trong project này"
+echo "   2. Claude sẽ tự đọc CLAUDE.md"
 echo "   3. Thử: /sync → /plan → /code → /test → /review → /ship"
 echo ""
 echo "💡 Tùy chọn:"
