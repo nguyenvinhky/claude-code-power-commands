@@ -2,6 +2,9 @@
 .claude/edit-log.txt
 .claude/usage.jsonl
 .claude/.session/
+.claude/.notifications.log
+.claude/.last-test
+.claude/hooks/__pycache__/
 .claude/skills/*.local.md
 .mcp.json
 CLAUDE.local.md

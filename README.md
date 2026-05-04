@@ -42,16 +42,16 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 ├── .mcp.json.example                  # Template MCP servers
 ├── design/                            # UI/UX mockups sinh bởi /design (versioned)
 └── .claude/
-```,old_string:
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 11 slash commands (tiếng Việt)
+    ├── commands/                      # 14 slash commands (tiếng Việt)
     ├── agents/                        # 5 subagents (English, sonnet)
     ├── skills/                        # File-based skills (pr-review, changelog-gen)
+    ├── hooks/                         # Long Python hook scripts (lint, notify, ...)
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 12 Slash Commands
+## 14 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -67,6 +67,8 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/sync` | Đọc lại codebase, cập nhật context | ❌ Không thay đổi gì |
 | `/ship` | Pre-deploy checklist | ❌ Không tự deploy |
 | `/usage` | Thống kê cost/token từ `.claude/usage.jsonl` (today/week/month/by-branch) | ❌ Không edit, không xoá file |
+| `/commit` | Smart commit từ staged diff theo Conventional Commits, suggest split nếu lẫn concerns | ❌ Không tự push, không amend mặc định |
+| `/pr` | Mở PR với title/body chuyên nghiệp, link issue từ branch name qua `gh` | ❌ Không merge, không force push |
 
 ## 5 Subagents
 
@@ -93,15 +95,19 @@ Skills là các capabilities file-based trong `.claude/skills/<name>/SKILL.md`. 
 
 Thêm skill mới: tạo `.claude/skills/<name>/SKILL.md` với frontmatter đầy đủ.
 
-## Hooks (tự động hoá & an toàn)
+## Hooks (8 events — tự động hoá, an toàn, observability)
 
-Configured trong `.claude/settings.json`:
+Configured trong `.claude/settings.json`. Hooks ngắn viết inline (Python `-c`); hooks dài extract sang `.claude/hooks/<name>.py`.
 
 | Hook | Khi nào | Hành động |
 |------|---------|-----------|
 | **PreToolUse/Bash** | Trước mọi Bash command | Nếu match `rm -rf /`, `git push --force main`, `git reset --hard`, `DROP TABLE`... → hỏi lại user |
-| **PostToolUse/Write\|Edit** | Sau khi ghi/sửa file | Append log vào `.claude/edit-log.txt` |
+| **PostToolUse/Write\|Edit** (edit-log) | Sau khi ghi/sửa file | Append log vào `.claude/edit-log.txt` |
+| **PostToolUse/Write\|Edit** (lint-on-save) | Sau khi ghi/sửa file | Auto-format file vừa lưu (`prettier`/`black`/`gofmt`/`rustfmt`) — chỉ chạy nếu binary có **và** project có config tương ứng. Opt-out: `CLAUDE_DISABLE_LINT_ON_SAVE=1` |
+| **UserPromptSubmit** | Mỗi prompt user | Inject working tree state + last test result (im lặng nếu không có gì mới). Opt-out: `CLAUDE_DISABLE_PROMPT_CONTEXT=1` |
 | **SessionStart** | Đầu session | Inject `git branch` + last commit vào context |
+| **PreCompact** | Trước khi Claude compact context | Inject snapshot: branch, last commit, 15 file vừa edit — giữ continuity sau compact |
+| **Notification** | Claude cần notify user (task xong, cần input) | Desktop notification cross-platform (macOS osascript / Linux notify-send / Windows PowerShell). Log vào `.claude/.notifications.log`. Opt-out: `CLAUDE_DISABLE_NOTIFY=1` |
 | **Stop** | Sau mỗi assistant turn | Append cost/session metadata vào `.claude/usage.jsonl` (cumulative; `/usage` dedupe theo `session_id`) |
 
 Tất cả hooks viết bằng **Python** (không cần `jq`).
@@ -152,7 +158,7 @@ Hiển thị `[Model] project-name | $cost` ở dưới màn hình Claude Code.
 
 ```
 Feature mới:
-/sync → /plan <desc> → /design <screen> → /code <task> → use test-runner → use code-reviewer → /ship
+/sync → /plan <desc> → /design <screen> → /code <task> → use test-runner → use code-reviewer → /commit → /ship → /pr
 
 Feature UI-only (chưa cần backend):
 /design <screen> → preview trong browser → /code port vào src/
@@ -174,11 +180,11 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 12 |
+| Slash commands | 9 | 14 |
 | Subagents | 0 | 5 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |
-| Hooks | ❌ | ✅ (4 events) |
+| Hooks | ❌ | ✅ (8 events) |
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |

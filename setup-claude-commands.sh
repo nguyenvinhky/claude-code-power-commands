@@ -26,12 +26,12 @@ echo "===================================="
 echo "   Target: $PWD"
 
 # Tạo các thư mục cần thiết
-mkdir -p .claude/commands .claude/agents .claude/output-styles .claude/skills
-echo "✅ Tạo thư mục .claude/{commands,agents,output-styles,skills}"
+mkdir -p .claude/commands .claude/agents .claude/output-styles .claude/skills .claude/hooks
+echo "✅ Tạo thư mục .claude/{commands,agents,output-styles,skills,hooks}"
 
 # Copy commands
 cp "$SCRIPT_DIR"/.claude/commands/*.md .claude/commands/
-echo "✅ Copy 12 slash commands"
+echo "✅ Copy 14 slash commands"
 
 # Copy agents
 cp "$SCRIPT_DIR"/.claude/agents/*.md .claude/agents/
@@ -46,6 +46,14 @@ if [ -d "$SCRIPT_DIR"/.claude/skills ]; then
   cp -r "$SCRIPT_DIR"/.claude/skills/* .claude/skills/ 2>/dev/null || true
   SKILL_COUNT=$(find .claude/skills -name SKILL.md 2>/dev/null | wc -l)
   echo "✅ Copy $SKILL_COUNT skills"
+fi
+
+# Copy hook scripts (.py hooks + _py.sh cross-platform Python wrapper)
+if [ -d "$SCRIPT_DIR"/.claude/hooks ]; then
+  cp "$SCRIPT_DIR"/.claude/hooks/*.py "$SCRIPT_DIR"/.claude/hooks/*.sh .claude/hooks/ 2>/dev/null || true
+  chmod +x .claude/hooks/*.sh 2>/dev/null || true
+  HOOK_COUNT=$(ls .claude/hooks/*.py 2>/dev/null | wc -l)
+  echo "✅ Copy $HOOK_COUNT hook scripts (+ _py.sh wrapper)"
 fi
 
 # Copy settings.json nếu chưa có
@@ -79,7 +87,11 @@ if [ -f .gitignore ]; then
 # Claude Code local files
 .claude/settings.local.json
 .claude/edit-log.txt
+.claude/usage.jsonl
 .claude/.session/
+.claude/.notifications.log
+.claude/.last-test
+.claude/hooks/__pycache__/
 .claude/skills/*.local.md
 .mcp.json
 CLAUDE.local.md
@@ -93,6 +105,7 @@ echo "   Commands: $(ls .claude/commands/*.md 2>/dev/null | wc -l)"
 echo "   Agents:   $(ls .claude/agents/*.md 2>/dev/null | wc -l)"
 echo "   Styles:   $(ls .claude/output-styles/*.md 2>/dev/null | wc -l)"
 echo "   Skills:   $(find .claude/skills -name SKILL.md 2>/dev/null | wc -l)"
+echo "   Hooks:    $(ls .claude/hooks/*.py 2>/dev/null | wc -l) script(s) + 4 inline"
 
 echo ""
 echo "✨ Hoàn tất! Bước tiếp theo:"
