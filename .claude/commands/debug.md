@@ -26,6 +26,24 @@ If key info is missing → ask immediately before continuing.
 - Read dependencies (libraries, utilities used)
 - Check test files to understand expected behavior
 
+**If "when did this break?" is unclear** → use `git bisect` (logarithmic, much faster than scanning history):
+```bash
+git bisect start
+git bisect bad                          # current commit is broken
+git bisect good <last-known-good-sha>   # this commit worked
+# git checks out midpoints; you test each, then `git bisect good|bad`; ~log2(N) iterations
+git bisect reset                        # when done
+```
+
+**If failure leaves logs** → grep for the error or timestamp window:
+```bash
+grep -rn "<error keyword>" logs/                  # local logs
+# cloud: tail relevant time window via your provider's CLI
+#   gcloud logging read '...'
+#   aws logs tail <log-group> --since <ts>
+```
+Reason from log content, **don't speculate**. Quote the actual log line in the report.
+
 ### Step 3 — Hypothesis-driven debugging
 
 List possible causes, ordered by likelihood:

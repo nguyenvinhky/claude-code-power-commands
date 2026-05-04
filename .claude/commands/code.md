@@ -11,11 +11,14 @@ $ARGUMENTS
 ## Process
 
 ### Step 1 — Sync context (REQUIRED before coding)
-Auto-read to grab the latest context:
-- Check `PLAN.md` if it exists → follow the plan
-- Read the files that will change + related files (imports, dependencies)
-- Review matching test files to understand expected behavior
-- Check existing patterns in the codebase (naming, structure, style)
+Read in this order — don't skip:
+1. **`PLAN.md`** if present → follow it; identify which task IDs (e.g. `P1.1`, `R5.2`) belong to this run
+2. **Files that will change** + their direct imports — use `Glob` for the directory, `Read` for each
+3. **Matching test files** (`*.test.*`, `*_test.*`) — understand existing expected behavior
+4. **`git diff HEAD`** + `git status --short` — see what's already modified vs clean
+5. **Adjacent code** following the same pattern — match naming/structure conventions in step 3
+
+If scope is unclear after this pass → ask user before writing any code.
 
 ### Step 2 — Pre-code analysis
 Before writing a single line, determine:
@@ -36,7 +39,7 @@ Coding rules:
 
 ### Step 4 — Self-check after coding
 
-After implementing, self-review:
+After implementing, self-review the diff:
 ```
 ✅ Does the code follow project conventions?
 ✅ Are error cases handled?
@@ -44,6 +47,15 @@ After implementing, self-review:
 ✅ Are there related files that need matching updates?
 ✅ Any obvious type errors or syntax issues?
 ```
+
+**Then verify it actually compiles / type-checks** — don't claim "done" until this passes:
+- TypeScript: `npx tsc --noEmit` (or detect from `package.json` scripts)
+- Python: `mypy <file>` if mypy in deps; else `python -m compileall <file>`
+- Go: `go build ./...`
+- Rust: `cargo check`
+- Other: detect lint/check command from project (look in scripts / Makefile / README), run it
+
+If verification fails → report the failure honestly + iterate. Do **NOT** mark task done in `PLAN.md` and do **NOT** call this step complete. Saying "done" on broken code is the worst failure mode.
 
 ### Step 5 — Update PLAN.md (if present)
 If the project has `PLAN.md`, auto-check completed tasks:
@@ -65,6 +77,14 @@ If the project has `PLAN.md`, auto-check completed tasks:
 ## 🔜 Next Step (if any)
 [Suggested next step]
 ```
+
+### Step 7 — Suggest delegations (if applicable)
+
+Based on what was changed:
+- **Tests exist for affected files** → "use `test-runner` agent to run tests on changed files"
+- **Scope crossed >2 modules / introduced a new boundary** → "use `architect` agent to review shape before merge"
+- **Touched auth / payment / crypto / secret-handling** → "use `security-auditor` agent before commit"
+- **Single-file fix, no test changes** → no delegation needed; suggest `/commit` directly
 
 ---
 

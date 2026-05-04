@@ -70,8 +70,16 @@ Confirm with the user before executing.
 
 Refactor in **baby steps**:
 - Each step does ONE type of change
-- Verify behavior is unchanged after each step
+- Verify behavior is unchanged after each step (run tests)
 - Don't combine multiple refactor types in one commit
+
+**Commit each baby step** (or at safe checkpoints) — each commit:
+- Has tests passing before AND after
+- Has a focused message: `refactor(<scope>): extract validateInput from createUser`
+- Is independently revertible
+
+❌ Bad: 5 baby steps → 1 giant commit `refactor user module` — loses atomicity, can't bisect later.
+✅ Good: 5 baby steps → 5 small commits; optionally squashed at PR time IF reviewer asks.
 
 ### Step 5 — Verify
 

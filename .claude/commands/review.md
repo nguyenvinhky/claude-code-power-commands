@@ -3,6 +3,21 @@
 ## Mission
 Review code thoroughly — find bugs, security issues, performance problems, and suggest improvements.
 
+## When to use /review vs `code-reviewer` agent
+
+Both audit the same 5 dimensions (correctness, security, performance, maintainability, conventions). Pick by **context cost**:
+
+| Use `/review` (this command) when... | Use `code-reviewer` agent when... |
+|---|---|
+| Quick review, small diff (<200 LOC) | Large diff (>500 LOC) — agent's isolated context window keeps main clean |
+| You want to discuss findings inline + iterate | You want a one-shot report and move on |
+| Reviewing your OWN in-progress work | Reviewing a teammate's PR or branch you didn't write |
+| One review at a time | Multiple parallel reviews (different files / branches) |
+
+Rule of thumb: **default to `/review` for everyday work; reach for the agent when context budget matters or you need parallelism**.
+
+For PRs already open on GitHub → use the `pr-review` skill (fetches via `gh`, audits, reports).
+
 ## Input
 $ARGUMENTS
 (If no arguments → review the latest changes or the specified file)

@@ -67,7 +67,24 @@ it('test1', () => {
 
 ### Step 5 — Run tests and report
 
-After writing, report:
+**Detect runner from project**:
+- `package.json` → `scripts.test` exists → use `npm test` (or `pnpm`/`yarn`/`bun` based on lockfile)
+- `pyproject.toml` / `setup.cfg` → `pytest` if installed, else `python -m unittest`
+- `go.mod` → `go test ./...` (or specific path if scoped)
+- `Cargo.toml` → `cargo test`
+- `Gemfile` → `bundle exec rspec`
+- Other → ask user for the command instead of guessing
+
+**Run only the affected scope** if possible — don't run full suite for a 3-line test addition:
+- Jest/Vitest: `npm test -- <test-file-path>`
+- pytest: `pytest <path>::<test_name>`
+- Go: `go test ./pkg/foo -run TestNewFeature`
+
+**For large suites** → delegate to `test-runner` subagent (isolated context, doesn't pollute main conversation).
+
+**If tests fail** → don't claim "done". Either fix the test (if it's wrong) or fix the code (if it's wrong). If unclear which is correct, ask user before changing either.
+
+**After running, report**:
 ```
 ## 🧪 Tests written
 
