@@ -15,8 +15,10 @@ description: Review a GitHub Pull Request end-to-end — fetches diff/metadata v
    - `gh pr view <N> --json title,body,author,baseRefName,headRefName,files,additions,deletions`
    - `gh pr diff <N>` for the full patch
    - `gh pr checks <N>` for CI status
+   - **If checks failed** → fetch logs with `gh run view <run-id> --log-failed` and quote the failing assertion in the report so the author can act without re-running locally. Don't gloss over CI failures with "looks like CI is broken" — say *what* broke.
 
 2. **Read the diff carefully**. For each changed file, understand *why* it changed — scan surrounding code + related tests if the intent is unclear.
+   - **Large PR (>500 LOC)**: don't try to read the whole thing. Group changed files by directory/feature → audit the highest-risk group first (auth, payment, migrations, infra config, schema). State explicitly in the report: *"Reviewed groups [X, Y]; groups [Z] need a separate pass."* Better to land a partial review honestly than a shallow full one.
 
 3. **Audit across five dimensions** (same as `code-reviewer` agent):
    - **Correctness** — logic bugs, null handling, race conditions

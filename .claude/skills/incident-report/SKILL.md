@@ -19,7 +19,11 @@ description: Generate a structured post-mortem for a production incident. Captur
 - **Timeline**: chronological events, with timestamps if available (UTC preferred)
 - **Root cause**: what actually broke (technical) — not who
 - **Contributing factors**: things that made it worse, prevented earlier detection, or amplified blast radius
-- **Severity** (SEV1/2/3): negotiate based on impact, not on engineer feelings
+- **Severity** (SEV1/2/3) — match by highest threshold hit:
+  - **SEV1**: >50% active users affected, OR data loss, OR security breach, OR revenue-blocking
+  - **SEV2**: 10–50% users affected with workaround available, OR major feature down, OR SLA breach risk
+  - **SEV3**: <10% users OR internal-only OR cosmetic
+  Pick the highest match. Negotiate down only with explicit reasoning, not on engineer feelings.
 
 ### Step 2 — Apply blameless framing
 - ✅ "An incorrect environment variable was deployed" — describes the system
@@ -29,7 +33,28 @@ description: Generate a structured post-mortem for a production incident. Captur
 
 If the user's draft has blame language, gently rewrite. The goal is org learning, not punishment.
 
-### Step 3 — Output structure
+### Step 2.5 — If status is "Investigating" or "Mitigated" (ongoing incident)
+
+Use the **LIVE** template below — shorter, written for frequent updates. Don't fill Root Cause / Action Items / What Went Well|Poorly until the incident is resolved (promote to the full Resolved template at that point).
+
+```markdown
+# Incident Report — <date> — <title> [LIVE]
+
+**Severity**: SEV<N> (initial — may revise)
+**Status**: Investigating | Mitigated
+**Detected**: <ISO timestamp> via <source>
+**Current state**: <one sentence — what's broken right now>
+**Mitigation in progress**: <action being taken / who is on it>
+**Next update**: in <minutes/hours>
+
+## Updates (newest first)
+- HH:MM — <update>
+- HH:MM — <previous update>
+```
+
+When the incident resolves → switch to the full template in Step 3 below; carry over Detected / Updates / Mitigation history into the Timeline.
+
+### Step 3 — Output structure (Resolved incidents)
 
 ```markdown
 # Incident Report — <date> — <short title>
@@ -74,13 +99,14 @@ What happened, who was affected, what we did about it. Plain language — exec-r
 - [Honest gaps — slow detection, missing alert, runbook outdated, etc.]
 
 ## Action Items
-| # | Action | Owner | Due | Type |
-|---|--------|-------|-----|------|
-| 1 | Add alert for <metric> | @alice | 2026-05-20 | Detection |
-| 2 | Update runbook for <scenario> | @bob | 2026-05-15 | Process |
-| 3 | Refactor <component> to prevent recurrence | @carol | 2026-06-01 | Prevention |
+| # | Action | Owner | Due | Type | Status |
+|---|--------|-------|-----|------|--------|
+| 1 | Add alert for <metric> | @alice | 2026-05-20 | Detection | Open |
+| 2 | Update runbook for <scenario> | @bob | 2026-05-15 | Process | Open |
+| 3 | Refactor <component> to prevent recurrence | @carol | 2026-06-01 | Prevention | Open |
 
 Type categories: Detection | Mitigation | Recovery | Prevention | Process | Communication
+Status enum: Open | In progress | Done | Cancelled. **Update status as items complete** — the post-mortem is a live document, not write-once. Stale "Open" items 6 months later signal lessons not learned.
 
 ## Lessons Learned
 [1–2 paragraphs — what's the takeaway for the team? Both technical and process insights.]
@@ -98,3 +124,4 @@ Type categories: Detection | Mitigation | Recovery | Prevention | Process | Comm
 - **Severity matches impact** — SEV1 only if customer impact was severe AND broad
 - **Pair with `/adr`** if the incident leads to a structural change (capture the decision separately)
 - **Don't include PII** — redact user emails, names, IDs unless absolutely necessary
+- **Customer-facing comms** (status page, customer email, social posts) is a **separate artifact** — don't merge into the post-mortem. This skill produces internal RCA only; user-facing comms typically need PR/legal review and use a different tone

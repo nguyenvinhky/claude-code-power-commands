@@ -84,13 +84,33 @@ newFunction({ arg, mode: 'compat' });
 
 ## Step-by-step Migration Path
 
-1. **Stay on `vN.last`** (last minor of vN) for one release cycle — exposes deprecation warnings
-2. **Run your test suite** — fix every deprecation warning while still on vN
-3. **Bump to vN+1**: `npm install mylib@N+1` (or equivalent)
-4. **Run codemods**: `npx mylib-codemod v2/all`
-5. **Manual fixes** for items not covered by codemods (see sections above)
-6. **Run full test suite** — pay extra attention to behavioral-change areas
-7. **Smoke test** in staging before production
+1. **Stay on `vN.last`** (last minor of vN) for one release cycle.
+   ✅ Verify: deprecation warnings appear in `npm test` output.
+2. **Fix every deprecation warning** while still on vN.
+   ✅ Verify: `npm test` clean, no deprecation noise.
+3. **Bump to vN+1**: `npm install mylib@N+1` (or equivalent).
+   ✅ Verify: install succeeds, lockfile updated.
+4. **Run codemods**: `npx mylib-codemod v2/all`.
+   ✅ Verify: `git diff` shows expected mechanical changes only; no stray edits.
+5. **Manual fixes** for items not covered by codemods (see sections above).
+   ✅ Verify: `npm test` green; specifically run tests in behavioral-change areas.
+6. **Smoke test in staging** — critical user flows end-to-end.
+   ✅ Verify: every flow works before production.
+7. **Production deploy** with rollback ready (see Rollback Plan below).
+   ✅ Verify: `<key metric>` stable for 30+ minutes post-deploy.
+
+⚠️ **Stop at first failed verify** — do NOT skip ahead. Fix the failure or rollback before continuing.
+
+## Rollback Plan
+
+If migration breaks production at any phase, revert with:
+
+1. **Code rollback**: `git revert <migration-commit-range>` OR `npm install <product>@<previous-version>` (or equivalent for your package manager).
+2. **Schema rollback** (if DB migrations were part of this): run the down-migration `<command>`. Test in staging first if data shape changed.
+3. **Cache invalidation**: clear `<which caches>` so app doesn't keep stale state pointing at the new schema.
+4. **Monitoring**: watch `<key metric>` for 30 minutes post-rollback to confirm stable.
+
+**Pre-condition for safe rollback**: backups taken at step `<N>` of the migration path. If you skipped backups → rollback may lose data; manual recovery needed.
 
 ## Common Pitfalls
 - <Specific gotcha 1>

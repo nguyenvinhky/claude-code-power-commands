@@ -17,8 +17,12 @@ description: Generate a CHANGELOG entry from git commits between two refs. Group
 
 2. **Fetch commits**:
    - `git log <range> --pretty=format:"%h|%s|%an" --no-merges`
+   - **Dedup before grouping**:
+     - Drop **revert pairs**: if `revert: <X>` appears in range AND the original `<X>` commit is also in range → drop both (match by referenced SHA in the revert commit body, fallback to subject match). Net change is zero — don't surface to user.
+     - Drop **fixup commits** (`fixup!`, `squash!`) — these are rebase artifacts that should never appear in a user-facing changelog.
 
-3. **Group by conventional-commit prefix**:
+3. **Group by conventional-commit prefix** (priority order — Breaking Changes always first):
+   - **`BREAKING CHANGE:` footer OR subject suffix `!` (`feat!:`, `fix!:`, ...)** → **⚠️ Breaking Changes** (top of list; NEVER nested under Added/Fixed). Each entry must include: 1-line description + migration hint pulled from commit body if present.
    - `feat:` / `feat(scope):` → **Added**
    - `fix:` → **Fixed**
    - `docs:` → **Documentation**
@@ -26,9 +30,12 @@ description: Generate a CHANGELOG entry from git commits between two refs. Group
    - `chore:` / `ci:` / `test:` → **Internal** (collapse if many)
    - Unprefixed commits → **Other** (list as-is)
 
-4. **Write Keep-a-Changelog format**:
+4. **Write Keep-a-Changelog format** (Breaking Changes always on top — they affect upgrade decisions):
    ```markdown
    ## [<version>] — <YYYY-MM-DD>
+
+   ### ⚠️ Breaking Changes
+   - <description> — Migration: <hint from commit body>
 
    ### Added
    - Short description (commit-hash)
@@ -39,6 +46,8 @@ description: Generate a CHANGELOG entry from git commits between two refs. Group
    ### Changed
    - ...
    ```
+
+   Skip the Breaking Changes section entirely if there are none — don't write an empty header.
 
 5. **Prepend** to existing `CHANGELOG.md` (don't overwrite). If none exists, create one with a standard header.
 

@@ -50,8 +50,17 @@ description: Generate user-facing release notes for a version (different from `c
    - "Read the docs: `<link>`"
    - "Upgrade: `<install command>`"
 
-6. **Confirm tone with user before publishing**:
-   - Default: confident but not hyperbolic
+6. **Pick tone preset before publishing** (ask user if not specified):
+
+   | Preset | Audience | Example: "added OAuth login" becomes... |
+   |--------|----------|------------------------------------------|
+   | `technical` | dev / API consumer | "Sign in with OAuth2 (Google + GitHub providers); deprecates session cookies in favor of JWT bearer tokens." |
+   | `marketing` (default) | end-user / customer | "Sign in with Google or GitHub — no more password hassle." |
+   | `casual` | indie / community | "Forgot your password again? Don't worry, just hit 'Sign in with Google'." |
+
+   If user didn't specify → ask one question: *"Audience là dev hay end-user?"* then pick the matching preset. Don't guess silently.
+
+   **Universal rules across all presets**:
    - **Avoid**: "groundbreaking", "revolutionary", "AI-powered" (unless literally true), "industry-leading"
    - **Prefer**: concrete benefit, specific number, plain English
 
