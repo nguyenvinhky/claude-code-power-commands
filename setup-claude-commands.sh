@@ -35,7 +35,7 @@ echo "✅ Copy 14 slash commands"
 
 # Copy agents
 cp "$SCRIPT_DIR"/.claude/agents/*.md .claude/agents/
-echo "✅ Copy 5 subagents (sonnet)"
+echo "✅ Copy 7 subagents (sonnet)"
 
 # Copy output styles
 cp "$SCRIPT_DIR"/.claude/output-styles/*.md .claude/output-styles/

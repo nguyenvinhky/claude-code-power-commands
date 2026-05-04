@@ -22,6 +22,7 @@ Auto-read the important files to understand the codebase:
 - Identify **constraints**: performance, security, compatibility
 - List **assumptions** that need user confirmation
 - Surface potential **risks**
+- For non-trivial scope (>200 LOC or new module boundaries), consider invoking the `architect` subagent to sanity-check the proposed shape before finalizing the plan
 
 ### Step 3 — Output the plan
 

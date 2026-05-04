@@ -45,6 +45,7 @@ Response format:
 ## Next Steps (if any)
 - Use `/plan` to plan an implementation
 - Use `/code` to implement directly
+- For questions needing external data (technology comparisons, API/library evaluation, "what changed in vX→Y"), delegate to the `researcher` subagent
 ```
 
 ---

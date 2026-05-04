@@ -70,17 +70,19 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/commit` | Smart commit từ staged diff theo Conventional Commits, suggest split nếu lẫn concerns | ❌ Không tự push, không amend mặc định |
 | `/pr` | Mở PR với title/body chuyên nghiệp, link issue từ branch name qua `gh` | ❌ Không merge, không force push |
 
-## 5 Subagents
+## 7 Subagents
 
 Subagents có **context window riêng** → không làm bẩn main context, có thể chạy song song.
 
 | Agent | Vai trò | Model |
 |-------|---------|-------|
-| `code-reviewer` | Audit bugs/security/perf/style | sonnet |
+| `code-reviewer` | Audit bugs/security/perf/style của diff | sonnet |
 | `test-runner` | Chạy test suite, phân tích failures | sonnet |
 | `debugger` | Root cause analysis có hệ thống | sonnet |
 | `security-auditor` | OWASP Top 10, secret scan | sonnet |
 | `doc-writer` | Viết README, API docs, ADR, comments | sonnet |
+| `architect` | Review **shape** (boundaries/layering/abstractions) trước khi /code — pair với /plan | sonnet |
+| `researcher` | Web research + synthesis cho tech evaluation, API lookup, comparison (có WebSearch + WebFetch) | sonnet |
 
 Cách dùng: `"hãy dùng code-reviewer để audit thay đổi vừa rồi"`.
 

@@ -5,6 +5,8 @@ Generate **many options** for an open problem (divergent thinking). **Never pick
 
 > VN: Đẻ 6–12 phương án có pros/cons/effort, có wild card, không chọn giùm. User tự chốt rồi chuyển sang `/plan`.
 
+> If the topic needs external evidence first (e.g. "compare 3 OAuth libraries"), run the `researcher` subagent BEFORE `/brainstorm` to gather data, then feed results in. Brainstorm itself stays evidence-free — pure divergent thinking, no live searching during the session.
+
 ## Input
 `$ARGUMENTS` = open-ended topic (problem, feature idea, naming, failure modes, …) + optional flags:
 
