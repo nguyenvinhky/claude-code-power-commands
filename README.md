@@ -51,7 +51,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 14 Slash Commands
+## 16 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -69,6 +69,8 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/usage` | Thống kê cost/token từ `.claude/usage.jsonl` (today/week/month/by-branch) | ❌ Không edit, không xoá file |
 | `/commit` | Smart commit từ staged diff theo Conventional Commits, suggest split nếu lẫn concerns | ❌ Không tự push, không amend mặc định |
 | `/pr` | Mở PR với title/body chuyên nghiệp, link issue từ branch name qua `gh` | ❌ Không merge, không force push |
+| `/adr` | Sinh Architectural Decision Record vào `decisions/NNNN-slug.md` (MADR format) | ❌ Không tự commit, không overwrite ADR cũ |
+| `/checkpoint` | Save/resume mid-task state vào `.claude/.checkpoints/` — branch, edits, where/next prose | ❌ Không tự stash, không tự switch branch |
 
 ## 7 Subagents
 
@@ -182,11 +184,13 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 14 |
-| Subagents | 0 | 5 |
+| Slash commands | 9 | 16 |
+| Subagents | 0 | 7 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |
 | Hooks | ❌ | ✅ (8 events) |
+| Decision records | ❌ | ✅ (`/adr` + `decisions/`) |
+| Checkpoint save/resume | ❌ | ✅ (`/checkpoint`) |
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |

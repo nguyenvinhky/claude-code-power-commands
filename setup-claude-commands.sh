@@ -31,7 +31,7 @@ echo "✅ Tạo thư mục .claude/{commands,agents,output-styles,skills,hooks}"
 
 # Copy commands
 cp "$SCRIPT_DIR"/.claude/commands/*.md .claude/commands/
-echo "✅ Copy 14 slash commands"
+echo "✅ Copy 16 slash commands"
 
 # Copy agents
 cp "$SCRIPT_DIR"/.claude/agents/*.md .claude/agents/
@@ -91,6 +91,7 @@ if [ -f .gitignore ]; then
 .claude/.session/
 .claude/.notifications.log
 .claude/.last-test
+.claude/.checkpoints/
 .claude/hooks/__pycache__/
 .claude/skills/*.local.md
 .mcp.json

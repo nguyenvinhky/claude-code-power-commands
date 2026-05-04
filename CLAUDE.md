@@ -4,7 +4,7 @@ Auto-loaded context for Claude Code. Project-wide conventions and operating rule
 
 ## Project Overview
 
-**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 12 slash commands, 5 subagents, safety/observability hooks, output styles, MCP template, expanded permissions.
+**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 16 slash commands, 7 subagents, 8 hook events, output styles, MCP template, expanded permissions.
 
 See [README.md](README.md) for directory layout, installation, and workflows.
 
@@ -40,6 +40,14 @@ Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem
 ## Brainstorms
 
 `/brainstorm` is the only divergent-mode command — it generates 6–12 option cards (Pros/Cons/Effort/Reversibility) plus a wild card and clustering. It never recommends a winner. Default is ephemeral (chat only); `--save=<slug>` persists to `brainstorms/<slug>.md`. The `brainstorms/` folder is gitignored — `git add -f brainstorms/foo.md` per file if you want to commit a specific list.
+
+## Decision Records (ADR)
+
+`/adr <title>` writes Architectural Decision Records to `decisions/NNNN-slug.md` in MADR format. Capture the WHY behind structural choices so context survives team turnover. Skeleton at `decisions/0000-template.md`. Status flow: `proposed → accepted → deprecated/superseded by NNNN`. `decisions/` IS tracked (unlike brainstorms) — these are durable artifacts. Pair with `doc-writer` agent for richer ADRs via `--enrich`.
+
+## Checkpoints
+
+`/checkpoint` saves work-in-progress snapshots to `.claude/.checkpoints/<timestamp>-<slug>.md` (gitignored). Useful before quit, compact, or switching machines. Resume via `/checkpoint --resume`. Each checkpoint records branch, last commit, recent edits from `.claude/edit-log.txt`, plus user-provided "where I am" + "next steps" prose. Refuses to save when nothing is in-progress.
 
 ## For Claude: Operating Notes
 

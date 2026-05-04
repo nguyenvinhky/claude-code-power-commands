@@ -4,6 +4,7 @@
 .claude/.session/
 .claude/.notifications.log
 .claude/.last-test
+.claude/.checkpoints/
 .claude/hooks/__pycache__/
 .claude/skills/*.local.md
 .mcp.json
