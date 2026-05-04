@@ -60,6 +60,37 @@
         "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
         "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
       }
+    },
+    "linear": {
+      "_description": "Linear API (issues, projects, cycles). Requires LINEAR_API_KEY (https://linear.app/settings/api). Note: package name varies — verify on npm/MCP registry; this is a popular community choice.",
+      "command": "npx",
+      "args": ["-y", "@tacticlaunch/mcp-linear"],
+      "env": {
+        "LINEAR_API_KEY": "${LINEAR_API_KEY}"
+      }
+    },
+    "jira": {
+      "_description": "Atlassian Jira (issues, sprints, boards). Requires JIRA_HOST (yourcompany.atlassian.net), JIRA_EMAIL, JIRA_API_TOKEN (https://id.atlassian.com/manage-profile/security/api-tokens). Verify package name on npm before use.",
+      "command": "npx",
+      "args": ["-y", "mcp-atlassian"],
+      "env": {
+        "JIRA_HOST": "${JIRA_HOST}",
+        "JIRA_EMAIL": "${JIRA_EMAIL}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+      }
+    },
+    "notion": {
+      "_description": "Notion (pages, databases, blocks). Requires NOTION_TOKEN — internal integration token from https://www.notion.so/my-integrations. Share target pages with the integration.",
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "NOTION_TOKEN": "${NOTION_TOKEN}"
+      }
+    },
+    "redis": {
+      "_description": "Redis (read/write keys). Replace connection string. Use redis:// or rediss:// for TLS.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-redis", "redis://localhost:6379"]
     }
   }
 }

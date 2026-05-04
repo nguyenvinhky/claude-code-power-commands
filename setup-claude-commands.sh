@@ -31,7 +31,7 @@ echo "✅ Tạo thư mục .claude/{commands,agents,output-styles,skills,hooks}"
 
 # Copy commands
 cp "$SCRIPT_DIR"/.claude/commands/*.md .claude/commands/
-echo "✅ Copy 16 slash commands"
+echo "✅ Copy 18 slash commands"
 
 # Copy agents
 cp "$SCRIPT_DIR"/.claude/agents/*.md .claude/agents/

@@ -51,7 +51,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 16 Slash Commands
+## 18 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -71,6 +71,8 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/pr` | Mở PR với title/body chuyên nghiệp, link issue từ branch name qua `gh` | ❌ Không merge, không force push |
 | `/adr` | Sinh Architectural Decision Record vào `decisions/NNNN-slug.md` (MADR format) | ❌ Không tự commit, không overwrite ADR cũ |
 | `/checkpoint` | Save/resume mid-task state vào `.claude/.checkpoints/` — branch, edits, where/next prose | ❌ Không tự stash, không tự switch branch |
+| `/explain` | Walkthrough 1 file/module: entry → call graph → invariants → notable decisions | ❌ Không sửa code, không trace hết external libs |
+| `/migrate` | Migration plan cho framework/lib upgrade — researcher + grep codebase → phased plan | ❌ Không tự install, không tự edit code |
 
 ## 7 Subagents
 
@@ -99,9 +101,9 @@ Skills là các capabilities file-based trong `.claude/skills/<name>/SKILL.md`. 
 
 Thêm skill mới: tạo `.claude/skills/<name>/SKILL.md` với frontmatter đầy đủ.
 
-## Hooks (8 events — tự động hoá, an toàn, observability)
+## Hooks (8 events / 9 hook entries — tự động hoá, an toàn, observability)
 
-Configured trong `.claude/settings.json`. Hooks ngắn viết inline (Python `-c`); hooks dài extract sang `.claude/hooks/<name>.py`.
+Configured trong `.claude/settings.json`. Hooks ngắn viết inline (Python `-c`); hooks dài extract sang `.claude/hooks/<name>.py`. Tất cả Python hooks chạy qua wrapper `.claude/hooks/_py.sh` để cross-platform (`py` → `python3` → `python`, filter Windows Store stub).
 
 | Hook | Khi nào | Hành động |
 |------|---------|-----------|
@@ -112,6 +114,7 @@ Configured trong `.claude/settings.json`. Hooks ngắn viết inline (Python `-c
 | **SessionStart** | Đầu session | Inject `git branch` + last commit vào context |
 | **PreCompact** | Trước khi Claude compact context | Inject snapshot: branch, last commit, 15 file vừa edit — giữ continuity sau compact |
 | **Notification** | Claude cần notify user (task xong, cần input) | Desktop notification cross-platform (macOS osascript / Linux notify-send / Windows PowerShell). Log vào `.claude/.notifications.log`. Opt-out: `CLAUDE_DISABLE_NOTIFY=1` |
+| **SubagentStop** | Sau khi subagent (delegated task) xong | Append cost/agent metadata vào `.claude/usage.jsonl` với `kind=subagent` + `agent=<name>`. Cho phép `/usage --by-agent` break down spend per agent (không double-count với main `Stop` total) |
 | **Stop** | Sau mỗi assistant turn | Append cost/session metadata vào `.claude/usage.jsonl` (cumulative; `/usage` dedupe theo `session_id`) |
 
 Tất cả hooks viết bằng **Python** (không cần `jq`).
@@ -184,17 +187,19 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 16 |
+| Slash commands | 9 | 18 |
 | Subagents | 0 | 7 |
 | Skills | 0 | 2 |
 | CLAUDE.md | ❌ | ✅ |
-| Hooks | ❌ | ✅ (8 events) |
+| Hooks | ❌ | ✅ (8 events / 9 hooks) |
 | Decision records | ❌ | ✅ (`/adr` + `decisions/`) |
 | Checkpoint save/resume | ❌ | ✅ (`/checkpoint`) |
+| Cross-platform Python | ❌ | ✅ (`.claude/hooks/_py.sh` wrapper) |
+| Per-agent cost tracking | ❌ | ✅ (`SubagentStop` + `/usage --by-agent`) |
 | StatusLine | ❌ | ✅ |
 | Output styles | 0 | 2 |
 | Permissions | ~3 rules | ~40+ rules |
-| MCP template | ❌ | ✅ (8 servers) |
+| MCP template | ❌ | ✅ (13 servers) |
 | Dangerous cmd guard | ❌ | ✅ (ask mode) |
 | Secret file block | ❌ | ✅ (deny) |
 | Cost observability | ❌ | ✅ (`/usage` + Stop hook) |
