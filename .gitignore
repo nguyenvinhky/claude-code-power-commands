@@ -10,6 +10,7 @@
 .mcp.json
 CLAUDE.local.md
 /PLAN.md
+/SPEC.md
 *.log
 
 # Design screenshots (auto-generated via /design --preview)

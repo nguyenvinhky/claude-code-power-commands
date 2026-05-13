@@ -4,7 +4,7 @@ Auto-loaded context for Claude Code. Project-wide conventions and operating rule
 
 ## Project Overview
 
-**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 18 slash commands, 7 subagents, 8 hook events, 13 MCP templates, output styles, expanded permissions.
+**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 19 slash commands, 7 subagents, 8 hook events, 13 MCP templates, output styles, expanded permissions.
 
 See [README.md](README.md) for directory layout, installation, and workflows.
 
@@ -49,10 +49,19 @@ Copy `.mcp.json.example` → `.mcp.json` and set env vars. Templates: filesystem
 
 `/checkpoint` saves work-in-progress snapshots to `.claude/.checkpoints/<timestamp>-<slug>.md` (gitignored). Useful before quit, compact, or switching machines. Resume via `/checkpoint --resume`. Each checkpoint records branch, last commit, recent edits from `.claude/edit-log.txt`, plus user-provided "where I am" + "next steps" prose. Refuses to save when nothing is in-progress.
 
+## Spec artifacts
+
+`/spec <files>` ingests PRD/spec đa format: `.md`/`.txt`/`.pdf`/ảnh/URL native; `.docx`/`.xlsx` qua `.claude/hooks/spec_ingest.py` với optional `python-docx`/`openpyxl` deps, hoặc `pandoc` fallback.
+
+Output là `SPEC.md` ở project root (gitignored, ephemeral — mirror `PLAN.md`) gồm Requirements / Business Rules / Acceptance Criteria / Codebase Alignment / Ambiguities. Flag `--save=docs/specs/<slug>.md` opt-in để track.
+
+Pair với `/plan` (Step 0 tự đọc SPEC.md làm authoritative input). Critical ambiguities phải resolve trước khi sang `/plan`.
+
 ## For Claude: Operating Notes
 
-- **Always check `PLAN.md` first** — if present, follow it and tick checkboxes as you go
+- **Always check `SPEC.md` first nếu present** — its Requirements + Business Rules + Acceptance Criteria là authoritative cho `/plan`
+- **Always check `PLAN.md` next** — if present, follow it and tick checkboxes as you go
 - **Prefer slash commands over ad-hoc reasoning** — they encode the user's preferred workflow
 - **Delegate to subagents** for code review, running tests, root-cause analysis, security checks, doc generation
 - **Do not edit `.claude/settings.json`** without explicit user request — shared config
-- **Never commit** `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`, or `.claude/usage.jsonl`
+- **Never commit** `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`, `.claude/usage.jsonl`, `PLAN.md`, or `SPEC.md` (last two are ephemeral artifacts — `/spec --save` opts into tracked location)

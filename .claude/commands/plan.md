@@ -10,6 +10,17 @@ $ARGUMENTS
 
 ## Process
 
+### Step 0 — Check for upstream spec (if present)
+If `SPEC.md` exists at project root (or user passes `--spec=<path>` — note: this is a `/plan` flag, NOT a `/spec` flag) → read it FIRST and treat these sections as authoritative:
+- **Goal** + **Reformulated Requirements** + **Business Rules** → load as primary input; skip duplicate clarification in Step 2 for items already answered
+- **Acceptance Criteria** → use to define tasks' "done"
+- **Ambiguities (Critical)** → if any remain unresolved, surface as **❓ Questions to Confirm** in plan output and STOP before designing phases — re-run `/spec` after BA clarifies
+- **Codebase Alignment ❌ items** → these become Phase 0 / scaffolding tasks in the plan
+
+Output PLAN.md MUST include a `## 📌 Source Spec` line linking to SPEC.md for traceability.
+
+If no SPEC.md → proceed normally to Step 1.
+
 ### Step 1 — Read & understand current context
 Auto-read the important files to understand the codebase:
 - Read `README.md`, `package.json` / `pyproject.toml` / `go.mod` (if present)

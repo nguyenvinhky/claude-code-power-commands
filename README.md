@@ -1,6 +1,6 @@
 # 🤖 Claude Code Power Commands
 
-Bộ setup đầy đủ tính năng cho **Claude Code** — slash commands, subagents, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
+Bộ setup đầy đủ tính năng cho **Claude Code** — 19 slash commands, 7 subagents, 5 skills, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
 
 ## 🚀 Quick Install (one-liner)
 
@@ -51,18 +51,19 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 └── .claude/
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 18 slash commands (tiếng Việt)
+    ├── commands/                      # 19 slash commands (tiếng Việt)
     ├── agents/                        # 7 subagents (English, sonnet)
     ├── skills/                        # 5 skills (pr-review, changelog-gen, release-notes, incident-report, migration-guide)
     ├── hooks/                         # Python hook scripts + _py.sh cross-platform wrapper
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 18 Slash Commands
+## 19 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
-| `/plan` | Phân tích & lên kế hoạch chi tiết | ❌ Không viết code |
+| `/spec` | Đọc PRD/spec đa format (md/pdf/docx/xlsx/ảnh/URL), verify alignment với codebase, list ambiguity → `SPEC.md` làm input cho `/plan` | ❌ Không sửa code, không guess ambiguity |
+| `/plan` | Phân tích & lên kế hoạch chi tiết (tự đọc `SPEC.md` nếu có) | ❌ Không viết code |
 | `/ask` | Hỏi & đáp, giải thích code | ❌ Không tự ý thay đổi file |
 | `/brainstorm` | Sinh 6-12 options (divergent), có wild card | ❌ Không đưa recommendation |
 | `/code` | Implement code (auto-sync context) | ❌ Không refactor ngoài phạm vi |
@@ -176,7 +177,10 @@ Hiển thị `[Model] project-name | $cost` ở dưới màn hình Claude Code.
 ## Luồng làm việc điển hình
 
 ```
-Feature mới:
+Feature mới (có BA spec — docx/xlsx/pdf/...):
+/sync → /spec <files> → trả lời Ambiguities → /plan → /design → /code → use test-runner → use code-reviewer → /commit → /ship → /pr
+
+Feature mới (không có spec hình thức):
 /sync → /plan <desc> → /design <screen> → /code <task> → use test-runner → use code-reviewer → /commit → /ship → /pr
 
 Feature UI-only (chưa cần backend):
@@ -199,7 +203,7 @@ Trước release:
 
 | Khía cạnh | Trước | Sau |
 |---|---|---|
-| Slash commands | 9 | 18 |
+| Slash commands | 9 | 19 |
 | Subagents | 0 | 7 |
 | Skills | 0 | 5 |
 | CLAUDE.md | ❌ | ✅ |
@@ -217,8 +221,19 @@ Trước release:
 | Secret file block | ❌ | ✅ (deny) |
 | Cost observability | ❌ | ✅ (`/usage` + Stop hook) |
 
+## Optional dependencies cho `/spec`
+
+`/spec` đọc native được `.md` / `.txt` / `.pdf` / ảnh / URL / text. Để parse `.docx` / `.xlsx` cần thêm:
+
+```bash
+pip install python-docx openpyxl
+# hoặc cài pandoc làm fallback (handle docx phức tạp tốt hơn)
+```
+
+Không cài cũng OK — `/spec` sẽ in fallback message và bỏ qua file không parse được, gợi ý user export sang `.md`/`.pdf`.
+
 ## Ghi chú bảo mật
 
-- **Không commit**: `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`, `.claude/usage.jsonl`
+- **Không commit**: `.claude/settings.local.json`, `.mcp.json`, `.claude/edit-log.txt`, `.claude/usage.jsonl`, `PLAN.md`, `SPEC.md` (hai cái cuối ephemeral — dùng `/spec --save=docs/specs/<slug>.md` nếu cần track)
 - Settings hooks ở `ask` mode — bạn vẫn có quyền approve/deny từng lệnh
 - `deny` rules block Claude đọc `.env`, `*.pem`, `*.key`, files chứa "credentials"
