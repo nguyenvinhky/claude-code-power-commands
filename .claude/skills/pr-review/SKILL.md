@@ -44,7 +44,7 @@ description: Review a GitHub Pull Request end-to-end — fetches diff/metadata v
 
 5. **Ask before posting**. Do NOT call `gh pr review --comment` or `gh pr review --request-changes` until the user confirms the findings are accurate.
 
-## Hard rules
+## Hard Rules
 - Never approve a PR automatically — always surface findings for human sign-off.
 - Never push commits to someone else's PR branch.
 - If the PR touches auth, crypto, or payment flow → escalate to the `security-auditor` agent before reporting.

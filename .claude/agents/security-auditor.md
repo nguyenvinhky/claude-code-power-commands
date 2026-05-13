@@ -62,7 +62,7 @@ Audit the current change (or the files the user points to) against:
 - [Things you noticed but are outside this change]
 ```
 
-## Rules
+## Hard Rules
 
 - **Evidence over intuition**: quote the line, show the attack vector
 - **No fixes in this session** — hand off to `/code` with direction

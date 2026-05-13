@@ -116,7 +116,7 @@ Status enum: Open | In progress | Done | Cancelled. **Update status as items com
 - `incidents/YYYY-MM-DD-<slug>.md`
 - Don't auto-create the folder — let user decide where it lives (some teams prefer `docs/incidents/` or external systems like Confluence/Notion)
 
-## Hard rules
+## Hard Rules
 - **Blameless** — describe the system, not the person. If user-provided text has blame, rewrite.
 - **No speculation** — if root cause unknown, write "Still investigating; updates in <X> hours" rather than guessing
 - **Action items must be SMART** — specific, measurable, assigned, realistic, time-bound

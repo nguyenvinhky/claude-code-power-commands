@@ -64,7 +64,7 @@ description: Generate user-facing release notes for a version (different from `c
    - **Avoid**: "groundbreaking", "revolutionary", "AI-powered" (unless literally true), "industry-leading"
    - **Prefer**: concrete benefit, specific number, plain English
 
-## Hard rules
+## Hard Rules
 - **Don't list every commit** — quality over quantity; 5 great bullets beats 30 noisy ones
 - **Don't use internal jargon** — no "ServiceLayer V2 migration", no internal codenames
 - **Don't overpromise** — "fixed an edge case in webhook retries" beats "now bulletproof"

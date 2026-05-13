@@ -64,7 +64,7 @@ You optimize for evidence over opinion. Every claim about a tool/library/API mus
 - OR `/brainstorm` if the comparison surfaced a third path
 ```
 
-## Rules
+## Hard Rules
 
 - **Cite or drop the claim**. Unsourced statements get cut.
 - **Distinguish primary sources from blogs**. Tag each source explicitly.

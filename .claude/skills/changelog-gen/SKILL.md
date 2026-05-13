@@ -53,7 +53,7 @@ description: Generate a CHANGELOG entry from git commits between two refs. Group
 
 6. **Ask the user to confirm the version number** before writing — never guess semver bump.
 
-## Hard rules
+## Hard Rules
 - Do NOT tag or push — leave release ceremony to the user.
 - Do NOT include commit hashes of private/WIP commits if the user specifies a public changelog.
 - Preserve existing CHANGELOG entries verbatim.

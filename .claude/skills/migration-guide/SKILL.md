@@ -125,7 +125,7 @@ If migration breaks production at any phase, revert with:
 ### Step 5 — Emphasize codemods where possible
 Most users prefer one command over hand-edits. If your project doesn't have codemods yet for any breaking change, suggest writing them — small upfront investment, big adoption payoff.
 
-## Hard rules
+## Hard Rules
 - **Every breaking change needs before/after code** — words alone don't help
 - **Order by impact** — most-disruptive first; behavioral changes deserve their own section because they bite hardest
 - **Honest about behavioral changes** — call them out as "silent" so users know to look extra carefully
