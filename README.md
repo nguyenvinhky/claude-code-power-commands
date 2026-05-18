@@ -1,6 +1,6 @@
 # 🤖 Claude Code Power Commands
 
-Bộ setup đầy đủ tính năng cho **Claude Code** — 19 slash commands, 7 subagents, 5 skills, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
+Bộ setup đầy đủ tính năng cho **Claude Code** — 20 slash commands, 7 subagents, 5 skills, hooks, permissions, statusLine, output styles, MCP template, cost observability. Drop vào bất kỳ project nào để dùng ngay.
 
 ## 🚀 Quick Install (one-liner)
 
@@ -51,14 +51,14 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 └── .claude/
     ├── settings.json                  # Hooks + permissions + statusLine
     ├── settings.local.json.example    # Personal overrides (gitignored)
-    ├── commands/                      # 19 slash commands (tiếng Việt)
+    ├── commands/                      # 20 slash commands (tiếng Việt)
     ├── agents/                        # 7 subagents (English, sonnet)
     ├── skills/                        # 5 skills (pr-review, changelog-gen, release-notes, incident-report, migration-guide)
     ├── hooks/                         # Python hook scripts + _py.sh cross-platform wrapper
     └── output-styles/                 # senior-mentor, concise
 ```
 
-## 19 Slash Commands
+## 20 Slash Commands
 
 | Command | Mục đích | Không làm |
 |---------|----------|-----------|
@@ -81,6 +81,7 @@ bash /path/to/claude-code-power-commands/setup-claude-commands.sh
 | `/checkpoint` | Save/resume mid-task state vào `.claude/.checkpoints/` — branch, edits, where/next prose | ❌ Không tự stash, không tự switch branch |
 | `/explain` | Walkthrough 1 file/module: entry → call graph → invariants → notable decisions | ❌ Không sửa code, không trace hết external libs |
 | `/migrate` | Migration plan cho framework/lib upgrade — researcher + grep codebase → phased plan | ❌ Không tự install, không tự edit code |
+| `/goal` | Autonomous loop — set verifiable condition, Claude tự chạy đến khi shell verifier (exit code thật) PASS. Multi-condition AND/OR, hard budget (turns + $), persistent state ở `.claude/.goals/`, auto import từ `SPEC.md`/`PLAN.md`, override built-in `/goal` | ❌ Không vào loop với vague condition, không exceed budget, không invoke slash commands nhau từ trong loop |
 
 ## 7 Subagents
 

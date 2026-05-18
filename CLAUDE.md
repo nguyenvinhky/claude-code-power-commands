@@ -4,7 +4,7 @@ Auto-loaded context for Claude Code. Project-wide conventions and operating rule
 
 ## Project Overview
 
-**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 19 slash commands, 7 subagents, 8 hook events, 13 MCP templates, output styles, expanded permissions.
+**Claude Code Power Commands** — reusable drop-in setup (`.claude/` + `CLAUDE.md`) that turns any repo into a Claude Code power environment: 20 slash commands, 7 subagents, 8 hook events, 13 MCP templates, output styles, expanded permissions.
 
 See [README.md](README.md) for directory layout, installation, and workflows.
 
